@@ -1,0 +1,19 @@
+{
+  "auth": {
+    "authorizedDomains": [
+      "localhost",
+      "seo-local-e0ec1.firebaseapp.com",
+      "seo-local-e0ec1.web.app"
+    ],
+    "providers": {
+      "emailPassword": true,
+      "googleSignIn": {
+        "oAuthBrandDisplayName": "OmniRank Studio"
+      }
+    }
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  }
+}

@@ -1,0 +1,130 @@
+[
+  {
+    "id": "log_1790318911554",
+    "adminEmail": "superadmin@omnirank.ai",
+    "action": "Account Override (change_plan)",
+    "target": "Solaria Commercial Power",
+    "details": "Changed plan to Package 2 ($50/mo)",
+    "timestamp": "2026-09-25T06:48:31.554Z"
+  },
+  {
+    "id": "log_1790318911516",
+    "adminEmail": "superadmin@omnirank.ai",
+    "action": "Account Override (reset_password)",
+    "target": "Solaria Commercial Power",
+    "details": "Manually reset client login password",
+    "timestamp": "2026-09-25T06:48:31.516Z"
+  },
+  {
+    "id": "log_1790318911475",
+    "adminEmail": "superadmin@omnirank.ai",
+    "action": "Account Override (enable)",
+    "target": "Solaria Commercial Power",
+    "details": "Restored client login and resumed automated workflows",
+    "timestamp": "2026-09-25T06:48:31.475Z"
+  },
+  {
+    "id": "log_1790318911432",
+    "adminEmail": "superadmin@omnirank.ai",
+    "action": "Account Override (disable)",
+    "target": "Solaria Commercial Power",
+    "details": "Disabled client account and paused all ongoing automations",
+    "timestamp": "2026-09-25T06:48:31.432Z"
+  },
+  {
+    "id": "log_1790318911389",
+    "adminEmail": "system",
+    "action": "Client Registered",
+    "target": "Solaria Commercial Power",
+    "details": "New subscription registered for Package 1 ($20/mo) ($20/mo)",
+    "timestamp": "2026-09-25T06:48:31.389Z"
+  },
+  {
+    "id": "log_1790318578366",
+    "adminEmail": "superadmin@omnirank.ai",
+    "action": "Account Override (change_plan)",
+    "target": "Solaria Commercial Power",
+    "details": "Changed plan to Package 2 ($50/mo)",
+    "timestamp": "2026-09-25T06:42:58.366Z"
+  },
+  {
+    "id": "log_1790318578343",
+    "adminEmail": "superadmin@omnirank.ai",
+    "action": "Account Override (reset_password)",
+    "target": "Solaria Commercial Power",
+    "details": "Manually reset client login password",
+    "timestamp": "2026-09-25T06:42:58.343Z"
+  },
+  {
+    "id": "log_1790318578323",
+    "adminEmail": "superadmin@omnirank.ai",
+    "action": "Account Override (enable)",
+    "target": "Solaria Commercial Power",
+    "details": "Restored client login and resumed automated workflows",
+    "timestamp": "2026-09-25T06:42:58.323Z"
+  },
+  {
+    "id": "log_1790318578304",
+    "adminEmail": "superadmin@omnirank.ai",
+    "action": "Account Override (disable)",
+    "target": "Solaria Commercial Power",
+    "details": "Disabled client account and paused all ongoing automations",
+    "timestamp": "2026-09-25T06:42:58.304Z"
+  },
+  {
+    "id": "log_1790318578283",
+    "adminEmail": "system",
+    "action": "Client Registered",
+    "target": "Solaria Commercial Power",
+    "details": "New subscription registered for Package 1 ($20/mo) ($20/mo)",
+    "timestamp": "2026-09-25T06:42:58.283Z"
+  },
+  {
+    "id": "log_1790318469053",
+    "adminEmail": "superadmin@omnirank.ai",
+    "action": "Account Override (change_plan)",
+    "target": "Solaria Commercial Power",
+    "details": "Changed plan to Package 2 ($50/mo)",
+    "timestamp": "2026-09-25T06:41:09.053Z"
+  },
+  {
+    "id": "log_1790318469028",
+    "adminEmail": "superadmin@omnirank.ai",
+    "action": "Account Override (reset_password)",
+    "target": "Solaria Commercial Power",
+    "details": "Manually reset client login password",
+    "timestamp": "2026-09-25T06:41:09.028Z"
+  },
+  {
+    "id": "log_1790318469009",
+    "adminEmail": "superadmin@omnirank.ai",
+    "action": "Account Override (enable)",
+    "target": "Solaria Commercial Power",
+    "details": "Restored client login and resumed automated workflows",
+    "timestamp": "2026-09-25T06:41:09.009Z"
+  },
+  {
+    "id": "log_1790318468988",
+    "adminEmail": "superadmin@omnirank.ai",
+    "action": "Account Override (disable)",
+    "target": "Solaria Commercial Power",
+    "details": "Disabled client account and paused all ongoing automations",
+    "timestamp": "2026-09-25T06:41:08.988Z"
+  },
+  {
+    "id": "log_1790318468965",
+    "adminEmail": "system",
+    "action": "Client Registered",
+    "target": "Solaria Commercial Power",
+    "details": "New subscription registered for Package 1 ($20/mo) ($20/mo)",
+    "timestamp": "2026-09-25T06:41:08.965Z"
+  },
+  {
+    "id": "log_01",
+    "adminEmail": "admin@omnirank.ai",
+    "action": "System Initialized",
+    "target": "System Core",
+    "details": "Initialized packages according to documentation ($20 & $50)",
+    "timestamp": "2026-09-25T06:41:08.961Z"
+  }
+]

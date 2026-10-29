@@ -1,0 +1,43 @@
+[
+  {
+    "id": "pkg_1",
+    "name": "Package 1 — GMB SEO",
+    "price": 20,
+    "cadence": "per month / billed monthly",
+    "badge": "Core Automation",
+    "description": "Full Google Business Profile setup, weekly AI posting, review replies, and local ranking intelligence.",
+    "highlight": false,
+    "ctaText": "Get Started ($20/mo)",
+    "ctaLink": "/register?plan=pkg_1",
+    "features": [
+      "Full Google Business Profile setup & optimization",
+      "Weekly AI-generated posts (services/offers/seasonal)",
+      "Automatic personalized replies to every review",
+      "Review growth system (automated customer requests)",
+      "Q&A monitoring & automated answer drafts",
+      "5x5 Local ranking map across your service area",
+      "AI-powered weekly action plan",
+      "Monthly performance report (calls, clicks, directions)",
+      "Auto Mode or Approval Mode (switchable anytime)"
+    ]
+  },
+  {
+    "id": "pkg_2",
+    "name": "Package 2 — GMB + Website SEO",
+    "price": 50,
+    "cadence": "per month / billed monthly",
+    "badge": "Most Popular",
+    "description": "Everything in Package 1 plus complete technical website SEO auditing, on-page optimization, and combined reporting.",
+    "highlight": true,
+    "ctaText": "Get Full Dominance ($50/mo)",
+    "ctaLink": "/register?plan=pkg_2",
+    "features": [
+      "Everything included in Package 1 ($20/mo)",
+      "Full website SEO audit (speed, mobile-friendliness, meta tags)",
+      "On-page SEO recommendations & schema code generation",
+      "Combined GMB + Website monthly performance report",
+      "Local landing page optimization guidance",
+      "Priority API crawling & weekly change detection"
+    ]
+  }
+]

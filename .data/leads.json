@@ -1,0 +1,78 @@
+[
+  {
+    "type": "service_quote",
+    "name": "QA Automated Tester",
+    "email": "qa.tester@precisionlab.io",
+    "phone": "+1 512 555-8910",
+    "businessName": "Precision Lab Tech",
+    "service": "Trading Web Development",
+    "budget": "$15k - $30k",
+    "message": "Automated QA inquiry verification.",
+    "id": "lead_1790318910417_j7di",
+    "status": "New",
+    "createdAt": "2026-09-25T06:48:30.417Z"
+  },
+  {
+    "type": "service_quote",
+    "name": "QA Automated Tester",
+    "email": "qa.tester@precisionlab.io",
+    "phone": "+1 512 555-8910",
+    "businessName": "Precision Lab Tech",
+    "service": "Trading Web Development",
+    "budget": "$15k - $30k",
+    "message": "Automated QA inquiry verification.",
+    "id": "lead_1790318578182_r3ei",
+    "status": "New",
+    "createdAt": "2026-09-25T06:42:58.182Z"
+  },
+  {
+    "type": "service_quote",
+    "name": "QA Automated Tester",
+    "email": "qa.tester@precisionlab.io",
+    "phone": "+1 512 555-8910",
+    "businessName": "Precision Lab Tech",
+    "service": "Trading Web Development",
+    "budget": "$15k - $30k",
+    "message": "Automated QA inquiry verification.",
+    "id": "lead_1790318468793_dyjl",
+    "status": "New",
+    "createdAt": "2026-09-25T06:41:08.793Z"
+  },
+  {
+    "id": "lead_01",
+    "type": "free_audit",
+    "name": "Austin Solar Team",
+    "email": "contact@austinsolar.io",
+    "businessName": "Austin Solar Dynamics",
+    "websiteUrl": "https://austinsolar.io",
+    "healthScore": 61,
+    "status": "New",
+    "createdAt": "Today (Free SEO Checker)"
+  },
+  {
+    "id": "lead_02",
+    "type": "service_quote",
+    "name": "Sarah Jenkins",
+    "email": "sarah@apexrealty.com",
+    "phone": "+1 (512) 555-3920",
+    "businessName": "Apex Realty Group",
+    "service": "Local SEO (GMB + Website)",
+    "budget": "$1k - $5k / mo",
+    "message": "Interested in ranking 3 local office locations in the Google 3-pack.",
+    "status": "Qualified",
+    "createdAt": "Yesterday (Quote Form)"
+  },
+  {
+    "id": "lead_03",
+    "type": "service_quote",
+    "name": "Tariq Malik",
+    "email": "tariq@fastech.io",
+    "phone": "+971 50 123 4567",
+    "businessName": "FasTech Logistics",
+    "service": "CRM & ERP Systems Development",
+    "budget": "$25k - $50k",
+    "message": "Need custom dispatch and driver assignment ERP web portal.",
+    "status": "Contacted",
+    "createdAt": "2 days ago (Quote Form)"
+  }
+]
