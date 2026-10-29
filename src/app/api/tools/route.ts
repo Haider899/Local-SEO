@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { validateAndSanitizeUrl } from "@/lib/audit/ssrf-guard";
 import * as cheerio from "cheerio";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();

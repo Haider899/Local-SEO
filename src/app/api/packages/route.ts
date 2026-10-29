@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getPackages, updatePackage, logAdminAction } from "@/lib/data/repository";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     const packages = getPackages();

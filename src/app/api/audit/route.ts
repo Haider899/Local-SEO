@@ -3,6 +3,8 @@ import { runWebsiteAudit } from "@/lib/audit/engine";
 import { saveAuditResult } from "@/lib/store";
 import { saveLead } from "@/lib/data/repository";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();

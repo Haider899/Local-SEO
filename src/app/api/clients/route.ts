@@ -7,6 +7,8 @@ import {
   getAdminLogs,
 } from "@/lib/data/repository";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     const clients = getClients();

@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { StripeBillingService } from '@/lib/billing/stripe-service';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(req: NextRequest) {
   try {
     const rawBody = await req.text();

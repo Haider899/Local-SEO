@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { AIDecisionEngine } from '@/lib/ai-engine/decision-engine';
 import { AIActionLogger } from '@/lib/ai-engine/action-logger';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const clientId = searchParams.get('clientId') || undefined;
