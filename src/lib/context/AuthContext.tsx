@@ -37,41 +37,60 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      setUser(firebaseUser);
-      if (firebaseUser) {
-        // Sync with Firestore and LocalStorage
-        try {
-          localStorage.setItem(
-            "omni_auth_user",
-            JSON.stringify({
-              uid: firebaseUser.uid,
-              name: firebaseUser.displayName || firebaseUser.email?.split("@")[0] || "User",
-              email: firebaseUser.email,
-              avatar: firebaseUser.photoURL,
-              provider: firebaseUser.providerData[0]?.providerId || "firebase",
-            })
-          );
-          await syncUserProfile({
-            uid: firebaseUser.uid,
-            email: firebaseUser.email,
-            displayName: firebaseUser.displayName,
-            photoURL: firebaseUser.photoURL,
-          });
-        } catch (e) {
-          // Ignore
+    let unsubscribe = () => {};
+    try {
+      unsubscribe = onAuthStateChanged(
+        auth,
+        async (firebaseUser) => {
+          setUser(firebaseUser);
+          if (firebaseUser) {
+            // Sync with Firestore and LocalStorage
+            try {
+              localStorage.setItem(
+                "omni_auth_user",
+                JSON.stringify({
+                  uid: firebaseUser.uid,
+                  name: firebaseUser.displayName || firebaseUser.email?.split("@")[0] || "User",
+                  email: firebaseUser.email,
+                  avatar: firebaseUser.photoURL,
+                  provider: firebaseUser.providerData[0]?.providerId || "firebase",
+                })
+              );
+              await syncUserProfile({
+                uid: firebaseUser.uid,
+                email: firebaseUser.email,
+                displayName: firebaseUser.displayName,
+                photoURL: firebaseUser.photoURL,
+              });
+            } catch (e) {
+              // Ignore
+            }
+          } else {
+            try {
+              localStorage.removeItem("omni_auth_user");
+            } catch {
+              // Ignore
+            }
+          }
+          setLoading(false);
+        },
+        (error) => {
+          console.warn("Firebase Auth status:", error?.message);
+          setLoading(false);
         }
-      } else {
-        try {
-          localStorage.removeItem("omni_auth_user");
-        } catch {
-          // Ignore
-        }
-      }
+      );
+    } catch (err) {
+      console.warn("Failed to attach Firebase auth listener:", err);
       setLoading(false);
-    });
+    }
 
-    return () => unsubscribe();
+    return () => {
+      try {
+        unsubscribe();
+      } catch {
+        // Ignore
+      }
+    };
   }, []);
 
   const signInWithGoogle = async () => {

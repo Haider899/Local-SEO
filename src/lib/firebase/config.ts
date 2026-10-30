@@ -28,14 +28,26 @@ googleProvider.setCustomParameters({
   prompt: "select_account",
 });
 
-// Analytics (only supported in browser environments)
+// Analytics (only supported in browser environments with safe shields fallback)
 let analytics: Analytics | null = null;
 if (typeof window !== "undefined") {
-  isSupported().then((supported) => {
-    if (supported) {
-      analytics = getAnalytics(app);
-    }
-  });
+  try {
+    isSupported()
+      .then((supported) => {
+        if (supported) {
+          try {
+            analytics = getAnalytics(app);
+          } catch {
+            // Analytics blocked by browser shields
+          }
+        }
+      })
+      .catch(() => {
+        // Safe catch for browsers blocking IndexedDB/Analytics
+      });
+  } catch {
+    // Analytics not supported
+  }
 }
 
 export { app, auth, db, googleProvider, analytics };

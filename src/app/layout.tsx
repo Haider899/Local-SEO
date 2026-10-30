@@ -70,14 +70,12 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" className={`${plusJakarta.variable} ${outfit.variable} font-sans light`}>
-      <head>
+    <html lang="en" suppressHydrationWarning className={`${plusJakarta.variable} ${outfit.variable} font-sans light`}>
+      <body suppressHydrationWarning className="min-h-screen bg-slate-50 text-slate-900 antialiased selection:bg-teal-600 selection:text-white flex flex-col font-sans">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
         />
-      </head>
-      <body className="min-h-screen bg-slate-50 text-slate-900 antialiased selection:bg-teal-600 selection:text-white flex flex-col font-sans">
         <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
