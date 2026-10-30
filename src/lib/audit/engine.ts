@@ -33,7 +33,7 @@ export async function runWebsiteAudit(input: AuditInput): Promise<AuditResult> {
       signal: controller.signal,
       headers: {
         "User-Agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36 OmniRankBot/1.0 (+https://omnirank.ai/bot)",
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36 InnovativeBot/1.0 (+https://seo.itibusinesssuite.online/bot)",
         Accept:
           "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
         "Accept-Language": "en-US,en;q=0.9",
@@ -60,7 +60,7 @@ export async function runWebsiteAudit(input: AuditInput): Promise<AuditResult> {
           signal: AbortSignal.timeout(6000),
           headers: {
             "User-Agent":
-              "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36 OmniRankBot/1.0",
+              "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36 InnovativeBot/1.0",
             Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
           },
           redirect: "follow",
@@ -86,7 +86,7 @@ export async function runWebsiteAudit(input: AuditInput): Promise<AuditResult> {
     const robotsUrl = new URL("/robots.txt", targetUrl).toString();
     const robotsRes = await fetch(robotsUrl, {
       signal: AbortSignal.timeout(3000),
-      headers: { "User-Agent": "OmniRankBot/1.0" },
+      headers: { "User-Agent": "InnovativeBot/1.0" },
     });
     if (robotsRes.ok) {
       robotsTxtBody = await robotsRes.text();

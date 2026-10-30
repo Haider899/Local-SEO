@@ -134,7 +134,7 @@ function DashboardLayoutInner({ children }: { children: React.ReactNode }) {
             <Globe className="w-4 h-4" />
           </div>
           <span className="font-black text-slate-900 text-base font-heading">
-            Omni<span className="text-teal-600">Rank</span>
+            Innova<span className="text-teal-600">tive</span>
           </span>
         </Link>
         <button
@@ -160,7 +160,7 @@ function DashboardLayoutInner({ children }: { children: React.ReactNode }) {
               </div>
               <div className="flex flex-col">
                 <span className="text-base font-black text-slate-900 tracking-tight flex items-center gap-1 font-heading">
-                  Omni<span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 via-emerald-600 to-sky-600">Rank</span>
+                  Innova<span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 via-emerald-600 to-sky-600">tive</span>
                   <span className="text-[9px] uppercase font-bold px-1.5 py-0.2 rounded bg-teal-50 text-teal-800 border border-teal-200">
                     SaaS
                   </span>
@@ -326,7 +326,7 @@ function DashboardLayoutInner({ children }: { children: React.ReactNode }) {
 
             <button
               onClick={handleLogout}
-              title="Log Out of OmniRank"
+              title="Log Out of Innovative"
               className="p-1.5 rounded-xl hover:bg-rose-50 text-slate-400 hover:text-rose-600 transition-colors shrink-0"
             >
               <LogOut className="w-4 h-4" />

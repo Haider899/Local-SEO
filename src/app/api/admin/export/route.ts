@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
         status: 200,
         headers: {
           'Content-Type': 'text/csv; charset=utf-8',
-          'Content-Disposition': `attachment; filename="omnirank_clients_${Date.now()}.csv"`,
+          'Content-Disposition': `attachment; filename="innovative_clients_${Date.now()}.csv"`,
         },
       });
     }
@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
         status: 200,
         headers: {
           'Content-Type': 'text/csv; charset=utf-8',
-          'Content-Disposition': `attachment; filename="omnirank_leads_${Date.now()}.csv"`,
+          'Content-Disposition': `attachment; filename="innovative_leads_${Date.now()}.csv"`,
         },
       });
     }

@@ -8,7 +8,7 @@
     "providers": {
       "emailPassword": true,
       "googleSignIn": {
-        "oAuthBrandDisplayName": "OmniRank Studio"
+        "oAuthBrandDisplayName": "Innovative Studio"
       }
     }
   },

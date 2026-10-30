@@ -63,7 +63,7 @@ export default function LoginPage() {
         "omni_auth_user",
         JSON.stringify({
           name: "Workspace Member",
-          email: "member@omnirank.ai",
+          email: "member@itibusinesssuite.online",
           provider: "google",
           avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80",
           loggedInAt: new Date().toISOString(),
@@ -92,7 +92,7 @@ export default function LoginPage() {
               <Sparkles className="w-5 h-5" />
             </div>
             <h1 className="text-2xl font-black text-slate-900 tracking-tight font-heading">
-              Welcome Back to OmniRank
+              Welcome Back to Innovative
             </h1>
             <p className="text-xs text-slate-500">
               Access your SEO, Maps 3-Pack & AI visibility workspace.

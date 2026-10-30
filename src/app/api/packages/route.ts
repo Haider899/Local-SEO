@@ -33,7 +33,7 @@ export async function PATCH(req: NextRequest) {
     }
 
     logAdminAction(
-      adminEmail || "admin@omnirank.ai",
+      adminEmail || "admin@itibusinesssuite.online",
       "Package Pricing Updated",
       updated.name,
       `Price updated to $${updated.price}/mo with ${updated.features.length} features`

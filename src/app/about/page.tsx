@@ -18,9 +18,9 @@ import {
 } from "lucide-react";
 
 export const metadata = {
-  title: "About Us | OmniRank Software House & Technology Group",
+  title: "About Us | Innovative Software House & Technology Group",
   description:
-    "We are a forward-thinking software house engineering bespoke enterprise platforms, applied AI systems, and our flagship OmniRank SEO SaaS.",
+    "We are a forward-thinking software house engineering bespoke enterprise platforms, applied AI systems, and our flagship Innovative SEO SaaS.",
 };
 
 export default function AboutPage() {
@@ -102,7 +102,7 @@ export default function AboutPage() {
                   Traditional software agencies hand off brittle prototypes that break when user traffic spikes. We build software with the rigor of distributed systems engineering — strictly typed, thoroughly tested, and fortified against cybersecurity threats.
                 </p>
                 <p className="text-slate-600 text-base leading-relaxed">
-                  To prove our capabilities, we built and maintain <strong>OmniRank AI</strong>: a full-scale commercial SaaS platform and free SEO developer tool ecosystem running under the same unified domain.
+                  To prove our capabilities, we built and maintain <strong>Innovative SEO</strong>: a full-scale commercial SaaS platform and free SEO developer tool ecosystem running under the same unified domain.
                 </p>
 
                 <div className="space-y-3 pt-2">

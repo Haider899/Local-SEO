@@ -17,10 +17,11 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "OmniRank | Software Engineering House & Local SEO Growth Engine",
+  title: "Innovative | Software Engineering House & Local SEO Growth Engine",
   description:
     "Custom software development, high-performance web applications, and automated Google Business Profile & Local SEO platform for modern businesses.",
   keywords: [
+    "Innovative",
     "Software House",
     "Local SEO",
     "Google Maps 3-Pack",
@@ -29,18 +30,18 @@ export const metadata: Metadata = {
     "SEO Audit",
     "Custom Engineering",
   ],
-  authors: [{ name: "OmniRank Engineering" }],
+  authors: [{ name: "Innovative Engineering" }],
   openGraph: {
-    title: "OmniRank — Software Engineering House & Local SEO Growth Engine",
+    title: "Innovative — Software Engineering House & Local SEO Growth Engine",
     description:
       "Custom software development, high-performance web applications, and automated Google Business Profile & Local SEO platform.",
     type: "website",
-    url: "https://omnirank.com",
-    siteName: "OmniRank Engineering",
+    url: "https://seo.itibusinesssuite.online",
+    siteName: "Innovative Engineering",
   },
   twitter: {
     card: "summary_large_image",
-    title: "OmniRank — Software Engineering House & Local SEO Growth Engine",
+    title: "Innovative — Software Engineering House & Local SEO Growth Engine",
     description:
       "Custom software development, high-performance web applications, and automated Google Business Profile & Local SEO platform.",
   },
@@ -56,7 +57,7 @@ export default function RootLayout({
   const softwareSchema = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: "OmniRank",
+    name: "Innovative",
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web",
     offers: {

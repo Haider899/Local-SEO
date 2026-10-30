@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
     }
 
     const session = AdminImpersonationService.createSession({
-      adminEmail: adminEmail || 'superadmin@omnirank.ai',
+      adminEmail: adminEmail || 'superadmin@itibusinesssuite.online',
       clientId,
       clientBusinessName,
     });

@@ -604,7 +604,7 @@ function RegisterContent() {
                         </span>
                       </h3>
                       <p className="text-xs text-slate-600 mt-1 leading-relaxed">
-                        OmniRank automatically publishes scheduled weekly posts, answers incoming Q&A, and replies to customer reviews. Note: Name, address, and primary category changes always require manual approval.
+                        Innovative automatically publishes scheduled weekly posts, answers incoming Q&A, and replies to customer reviews. Note: Name, address, and primary category changes always require manual approval.
                       </p>
                     </div>
                   </div>
@@ -631,7 +631,7 @@ function RegisterContent() {
                     <div>
                       <h3 className="text-sm font-bold text-slate-900">Approval Mode</h3>
                       <p className="text-xs text-slate-600 mt-1 leading-relaxed">
-                        OmniRank prepares drafts for weekly posts, review replies, and profile updates in your review queue. Nothing is published to Google until you click "Approve".
+                        Innovative prepares drafts for weekly posts, review replies, and profile updates in your review queue. Nothing is published to Google until you click "Approve".
                       </p>
                     </div>
                   </div>

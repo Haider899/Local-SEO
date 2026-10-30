@@ -238,7 +238,7 @@ const DEFAULT_LEADS: LeadRecord[] = [
 const DEFAULT_LOGS: AdminActionRecord[] = [
   {
     id: "log_01",
-    adminEmail: "admin@omnirank.ai",
+    adminEmail: "admin@itibusinesssuite.online",
     action: "System Initialized",
     target: "System Core",
     details: "Initialized packages according to documentation ($20 & $50)",

@@ -212,7 +212,7 @@ export function HeroShowcaseSlider() {
                   <div className="w-3 h-3 rounded-full bg-rose-400" />
                   <div className="w-3 h-3 rounded-full bg-amber-400" />
                   <div className="w-3 h-3 rounded-full bg-emerald-400" />
-                  <span className="text-xs font-mono text-slate-500 ml-2">omnirank::distributed-core::service-mesh</span>
+                  <span className="text-xs font-mono text-slate-500 ml-2">innovative::distributed-core::service-mesh</span>
                 </div>
                 <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-teal-50 text-teal-800 border border-teal-200">
                   Engineered by Senior Architects

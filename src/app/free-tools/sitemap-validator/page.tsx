@@ -8,7 +8,7 @@ import { Badge } from "@/ui/Badge";
 import { FileCheck2, CheckCircle2, XCircle, Search, AlertTriangle, ArrowRight } from "lucide-react";
 
 export default function SitemapValidatorPage() {
-  const [sitemapUrl, setSitemapUrl] = useState("https://omnirank.ai/sitemap.xml");
+  const [sitemapUrl, setSitemapUrl] = useState("https://seo.itibusinesssuite.online/sitemap.xml");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState("");

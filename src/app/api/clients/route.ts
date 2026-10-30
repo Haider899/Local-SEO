@@ -94,7 +94,7 @@ export async function PATCH(req: NextRequest) {
       );
     }
 
-    const executor = adminEmail || "admin@omnirank.ai";
+    const executor = adminEmail || "admin@itibusinesssuite.online";
     let updates: any = {};
     let logMessage = "";
 

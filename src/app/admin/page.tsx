@@ -179,7 +179,7 @@ export default function AdminSuperPortalPage() {
         body: JSON.stringify({
           id: client.id,
           action,
-          adminEmail: `${adminRole.toLowerCase().replace(" ", "")}@omnirank.ai`,
+          adminEmail: `${adminRole.toLowerCase().replace(" ", "")}@itibusinesssuite.online`,
         }),
       });
       const data = await res.json();
@@ -207,7 +207,7 @@ export default function AdminSuperPortalPage() {
           id: resetPassModalClient.id,
           action: "reset_password",
           payload: { newPassword: newPasswordInput },
-          adminEmail: `${adminRole.toLowerCase().replace(" ", "")}@omnirank.ai`,
+          adminEmail: `${adminRole.toLowerCase().replace(" ", "")}@itibusinesssuite.online`,
         }),
       });
       const data = await res.json();
@@ -231,7 +231,7 @@ export default function AdminSuperPortalPage() {
           id: client.id,
           action: "change_plan",
           payload: { plan: newPlan },
-          adminEmail: `${adminRole.toLowerCase().replace(" ", "")}@omnirank.ai`,
+          adminEmail: `${adminRole.toLowerCase().replace(" ", "")}@itibusinesssuite.online`,
         }),
       });
       const data = await res.json();
@@ -299,7 +299,7 @@ export default function AdminSuperPortalPage() {
         body: JSON.stringify({
           id: editingPackage.id,
           updates: editingPackage,
-          adminEmail: `${adminRole.toLowerCase().replace(" ", "")}@omnirank.ai`,
+          adminEmail: `${adminRole.toLowerCase().replace(" ", "")}@itibusinesssuite.online`,
         }),
       });
       const data = await res.json();
@@ -335,7 +335,7 @@ export default function AdminSuperPortalPage() {
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `OmniRank_Leads_Export_${new Date().toISOString().slice(0, 10)}.csv`);
+    link.setAttribute("download", `Innovative_Leads_Export_${new Date().toISOString().slice(0, 10)}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -363,7 +363,7 @@ export default function AdminSuperPortalPage() {
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `OmniRank_Clients_Export_${new Date().toISOString().slice(0, 10)}.csv`);
+    link.setAttribute("download", `Innovative_Clients_Export_${new Date().toISOString().slice(0, 10)}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -412,7 +412,7 @@ export default function AdminSuperPortalPage() {
           </div>
           <div className="space-y-1">
             <h1 className="text-2xl font-black text-slate-900 font-heading">
-              OmniRank Master Control
+              Innovative Master Control
             </h1>
             <p className="text-xs text-slate-500 font-medium">
               Authorized personnel only. Enter root admin passcode.
@@ -464,7 +464,7 @@ export default function AdminSuperPortalPage() {
             </div>
             <div>
               <span className="text-sm font-black text-slate-900 font-heading tracking-wide">
-                OmniRank Control Center
+                Innovative Control Center
               </span>
               <span className="ml-2 text-[10px] font-bold px-2 py-0.5 rounded bg-teal-50 text-teal-800 border border-teal-200">
                 System 4

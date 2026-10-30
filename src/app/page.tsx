@@ -71,7 +71,7 @@ export default function HomePage() {
                   ))}
                 </div>
                 <p className="text-sm text-slate-700 leading-relaxed italic font-normal">
-                  "Before OmniRank, we had no idea ChatGPT was recommending our competitor because our robots.txt was blocking AI scrapers. Fixed it in 5 minutes with their Smart Tasks."
+                  "Before Innovative, we had no idea ChatGPT was recommending our competitor because our robots.txt was blocking AI scrapers. Fixed it in 5 minutes with their Smart Tasks."
                 </p>
                 <div className="pt-2 border-t border-slate-200/80 flex items-center justify-between text-xs">
                   <div>
@@ -107,7 +107,7 @@ export default function HomePage() {
                   ))}
                 </div>
                 <p className="text-sm text-slate-700 leading-relaxed italic font-normal">
-                  "The free schema generators and review repliers alone are worth hundreds a month. OmniRank bridges the gap between old-school SEO and modern AI search."
+                  "The free schema generators and review repliers alone are worth hundreds a month. Innovative bridges the gap between old-school SEO and modern AI search."
                 </p>
                 <div className="pt-2 border-t border-slate-200/80 flex items-center justify-between text-xs">
                   <div>
@@ -139,7 +139,7 @@ export default function HomePage() {
               </h2>
 
               <p className="text-sm sm:text-base text-teal-900/80 max-w-xl mx-auto font-normal">
-                Join high-performing local businesses and agencies accelerating customer acquisition with OmniRank.
+                Join high-performing local businesses and agencies accelerating customer acquisition with Innovative.
               </p>
 
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">

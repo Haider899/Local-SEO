@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 import { SERVICES_DATA, ServiceDetail } from '@/lib/data/services';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://omnirank.ai';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://seo.itibusinesssuite.online';
 
   const staticRoutes: MetadataRoute.Sitemap = [
     '',

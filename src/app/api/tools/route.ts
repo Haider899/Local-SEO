@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
           const res = await fetch(validation.normalizedUrl, {
             signal: controller.signal,
             headers: {
-              "User-Agent": "Mozilla/5.0 (compatible; OmniRankBot/1.0; +https://omnirank.ai)",
+              "User-Agent": "Mozilla/5.0 (compatible; InnovativeBot/1.0; +https://seo.itibusinesssuite.online)",
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,*/*;q=0.8",
             },
           });
@@ -91,7 +91,7 @@ export async function POST(req: NextRequest) {
               try {
                 const subRes = await fetch(childSitemapUrl, {
                   signal: AbortSignal.timeout(4000),
-                  headers: { "User-Agent": "OmniRankBot/1.0" },
+                  headers: { "User-Agent": "InnovativeBot/1.0" },
                 });
                 if (subRes.ok) {
                   const subXml = await subRes.text();
@@ -176,7 +176,7 @@ export async function POST(req: NextRequest) {
         try {
           const res = await fetch(robotsUrl, {
             signal: controller.signal,
-            headers: { "User-Agent": "OmniRankBot/1.0" },
+            headers: { "User-Agent": "InnovativeBot/1.0" },
           });
           clearTimeout(timeout);
 
@@ -260,7 +260,7 @@ export async function POST(req: NextRequest) {
         try {
           const res = await fetch(validation.normalizedUrl, {
             signal: controller.signal,
-            headers: { "User-Agent": "OmniRankBot/1.0 (+https://omnirank.ai)" },
+            headers: { "User-Agent": "InnovativeBot/1.0 (+https://seo.itibusinesssuite.online)" },
           });
           clearTimeout(timeout);
 
@@ -307,7 +307,7 @@ export async function POST(req: NextRequest) {
           const geoRes = await fetch(geoUrl, {
             signal: AbortSignal.timeout(4000),
             headers: {
-              "User-Agent": "LocalRankChecker/1.0 (+https://omnirank.ai; contact@omnirank.ai)",
+              "User-Agent": "LocalRankChecker/1.0 (+https://seo.itibusinesssuite.online; contact@itibusinesssuite.online)",
               Accept: "application/json",
             },
           });
@@ -437,7 +437,7 @@ export async function POST(req: NextRequest) {
         try {
           const rRes = await fetch(robotsUrl, {
             signal: AbortSignal.timeout(4000),
-            headers: { "User-Agent": "OmniRankBot/1.0" },
+            headers: { "User-Agent": "InnovativeBot/1.0" },
           });
           if (rRes.ok) {
             robotsTxtFound = true;
@@ -481,7 +481,7 @@ export async function POST(req: NextRequest) {
             signal: AbortSignal.timeout(6000),
             headers: {
               "User-Agent":
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36 OmniRankBot/1.0",
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36 InnovativeBot/1.0",
               Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
             },
             redirect: "follow",

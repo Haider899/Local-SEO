@@ -94,7 +94,7 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <h4 className="text-sm font-semibold text-slate-300">Email Us</h4>
-                      <p className="text-slate-400 text-sm mt-0.5">support@omnirank.ai</p>
+                      <p className="text-slate-400 text-sm mt-0.5">support@itibusinesssuite.online</p>
                       <p className="text-slate-500 text-xs mt-1">Typical response within 2 hours</p>
                     </div>
                   </div>

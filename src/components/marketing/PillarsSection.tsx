@@ -53,7 +53,7 @@ export function PillarsSection() {
             One Unified Engine for <span className="text-gradient-sea">Search</span>, <span className="text-gradient-mint">Maps</span>, and Discovery
           </h2>
           <p className="text-base text-slate-600 leading-relaxed font-normal">
-            Local buyers no longer rely on a single channel. They query Google Maps, check website speed and reviews, and ask smart assistants. OmniRank provides the engineering and optimization engine to win all three.
+            Local buyers no longer rely on a single channel. They query Google Maps, check website speed and reviews, and ask smart assistants. Innovative provides the engineering and optimization engine to win all three.
           </p>
         </div>
 

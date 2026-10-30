@@ -56,10 +56,10 @@ export function AeoComparisonSection() {
             </div>
           </div>
 
-          {/* OmniRank Engineered Approach Box */}
+          {/* Innovative Engineered Approach Box */}
           <div className="p-8 rounded-3xl crystal-card border-2 border-teal-400/40 space-y-6 shadow-xl shadow-teal-500/10 relative overflow-hidden">
             <div className="absolute top-0 right-0 px-4 py-1.5 bg-teal-700 text-white font-bold text-[10px] rounded-bl-xl uppercase tracking-wider">
-              OmniRank Engineered Strategy
+              Innovative Engineered Strategy
             </div>
 
             <div className="flex items-center gap-3">

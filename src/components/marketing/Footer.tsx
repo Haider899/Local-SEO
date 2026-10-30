@@ -14,7 +14,7 @@ export function Footer() {
                 <Globe className="w-4 h-4" />
               </div>
               <span className="text-lg font-black text-white tracking-tight">
-                Omni<span className="text-teal-400">Rank</span>
+                Innova<span className="text-teal-400">tive</span>
               </span>
             </Link>
             <p className="text-slate-400 text-xs leading-relaxed max-w-sm font-normal">
@@ -68,7 +68,7 @@ export function Footer() {
 
         <div className="pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500 font-medium">
           <div>
-            © {new Date().getFullYear()} OmniRank Engineering Group & Local Search Systems. All rights reserved.
+            © {new Date().getFullYear()} Innovative Technology Group & Local Search Systems. All rights reserved.
           </div>
           <div className="flex items-center gap-4">
             <span className="hover:text-white cursor-pointer">Privacy Policy</span>

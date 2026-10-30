@@ -83,7 +83,7 @@ export function Navbar() {
                 </div>
                 <div className="flex items-center gap-1.5">
                   <span className="text-lg font-black tracking-tight text-slate-900">
-                    Omni<span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600">Rank</span>
+                    Innova<span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600">tive</span>
                   </span>
                   <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold tracking-wide uppercase bg-emerald-50 text-emerald-800 border border-emerald-200">
                     Engineering & Local SEO

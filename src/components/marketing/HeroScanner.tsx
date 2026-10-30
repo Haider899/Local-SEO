@@ -229,7 +229,7 @@ export function HeroScanner() {
               <div className="flex items-center justify-between text-xs font-bold">
                 <span className="text-teal-700 flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-teal-600 animate-ping" />
-                  Running OmniRank Real-Time Audit Engine
+                  Running Innovative Real-Time Audit Engine
                 </span>
                 <span className="text-slate-500">
                   Step {currentStepIndex + 1} of {SCAN_STEPS.length}
