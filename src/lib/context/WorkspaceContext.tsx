@@ -229,182 +229,168 @@ function convertAuditToWorkspace(audit: AuditResult): WorkspaceData {
   };
 }
 
-export const DOART_ENERGY_WORKSPACE: WorkspaceData = {
-  id: "ws-doart-energy",
-  name: "Doart-Energy",
-  domain: "doartenergy.com",
-  location: "Global Service Area",
-  primaryService: "Renewable Energy & Solar Engineering",
-  targetKeyword: "solar energy systems",
-  overallVisibilityScore: 68,
-  grade: "C",
-  aiVisibilityScore: 55,
-  localVisibilityScore: 45,
-  seoHealthScore: 84,
-  technicalScore: 80,
-  categoryScores: {
-    seo: 84,
-    technical: 80,
-    local: 45,
-    ai: 55,
-    authority: 60,
-  },
-  isLiveAudit: true,
-  issuesCount: {
-    critical: 2,
-    warnings: 3,
-    passed: 12,
-  },
-  tasks: [
-    {
-      id: "task-de-1",
-      title: "Add Schema.org LocalBusiness JSON-LD",
-      category: "local",
-      priority: "Critical",
-      impact: "High",
-      difficulty: "Easy",
-      status: "open",
-      explanation: "doartenergy.com is missing LocalBusiness structured data required for Maps & AI citations.",
-      action: "Use the Free Schema Generator tool to inject JSON-LD into your header.",
+export function createWorkspaceFromAuthUser(user: {
+  name?: string;
+  businessName?: string;
+  domain?: string;
+  email?: string;
+}): WorkspaceData {
+  const businessName = user.businessName || (user.name ? `${user.name}'s Business` : "My Business");
+  const domain = user.domain || (user.email ? user.email.split("@")[1] : "example.com");
+
+  return {
+    id: `ws-${Date.now()}`,
+    name: businessName,
+    domain: domain,
+    location: "Local Service Area",
+    primaryService: "Local Business & Services",
+    targetKeyword: `${businessName.toLowerCase()}`,
+    overallVisibilityScore: 72,
+    grade: "B",
+    aiVisibilityScore: 68,
+    localVisibilityScore: 74,
+    seoHealthScore: 76,
+    technicalScore: 70,
+    categoryScores: {
+      seo: 76,
+      technical: 70,
+      local: 74,
+      ai: 68,
+      authority: 65,
     },
-    {
-      id: "task-de-2",
-      title: "Configure GPTBot & Perplexity in robots.txt",
-      category: "ai",
-      priority: "Recommended",
-      impact: "High",
-      difficulty: "Easy",
-      status: "open",
-      explanation: "Allow AI search engine crawlers to parse product specs for generative answers.",
-      action: "Update robots.txt to explicitly allow User-agent: GPTBot and PerplexityBot.",
+    isLiveAudit: false,
+    issuesCount: {
+      critical: 1,
+      warnings: 3,
+      passed: 12,
     },
-    {
-      id: "task-de-3",
-      title: "Add Meta Description & OpenGraph Tags",
-      category: "seo",
-      priority: "Recommended",
-      impact: "Medium",
-      difficulty: "Easy",
-      status: "open",
-      explanation: "Enhance SERP snippet CTR with a 155-character descriptive meta tag.",
-      action: "Add meta name='description' in the document <head>.",
+    tasks: [
+      {
+        id: "task-live-init-1",
+        title: "Scan Your Website For Real-Time Metrics",
+        category: "technical",
+        priority: "Critical",
+        impact: "High",
+        difficulty: "Easy",
+        status: "open",
+        explanation: `Run a live audit on ${domain} to replace baseline estimates with real crawl data.`,
+        action: "Click 'Scan New Site' in the top header to run your live domain audit.",
+      },
+      {
+        id: "task-live-init-2",
+        title: "Deploy LocalBusiness Schema",
+        category: "local",
+        priority: "Recommended",
+        impact: "High",
+        difficulty: "Easy",
+        status: "open",
+        explanation: "Inject JSON-LD structured data for Google Maps 3-pack & Knowledge Graph.",
+        action: "Use our Free Schema Generator tool to create your verified JSON-LD code.",
+      },
+      {
+        id: "task-live-init-3",
+        title: "Allow AI Bots in robots.txt",
+        category: "ai",
+        priority: "Recommended",
+        impact: "Medium",
+        difficulty: "Easy",
+        status: "open",
+        explanation: "Ensure GPTBot, PerplexityBot, and Google-Extended can index your key services.",
+        action: "Review robots.txt with the Robots.txt Checker in Utilities.",
+      },
+    ],
+    aiQueries: [
+      {
+        id: "ai-usr-1",
+        engine: "ChatGPT (GPT-4o)",
+        query: `Best ${businessName} services and customer reviews`,
+        category: "Brand Recommendation",
+        mentioned: true,
+        recommended: true,
+        positionRank: 1,
+        contextSnippet: `${businessName} (${domain}) is recognized for verified local services and customer satisfaction.`,
+        competitorsMentioned: ["Regional Benchmark"],
+        citations: [`https://${domain}`],
+        lastChecked: "Baseline Scan",
+      },
+      {
+        id: "ai-usr-2",
+        engine: "Perplexity",
+        query: `Top rated service providers matching ${businessName}`,
+        category: "Local Intent",
+        mentioned: true,
+        recommended: false,
+        positionRank: 2,
+        contextSnippet: `${businessName} provides verified service in its target area.`,
+        competitorsMentioned: ["Competitor Brand"],
+        citations: [`https://${domain}`],
+        lastChecked: "Baseline Scan",
+      },
+    ],
+    keywords: [
+      {
+        id: "kw-usr-1",
+        keyword: `${businessName.toLowerCase()}`,
+        location: "Service Area",
+        searchVolume: 1200,
+        currentPosition: 1,
+        previousPosition: 1,
+        change: 0,
+        serpFeatures: ["Knowledge Panel", "Site Links"],
+        updatedAt: "Today",
+      },
+      {
+        id: "kw-usr-2",
+        keyword: `${businessName.toLowerCase()} reviews`,
+        location: "Service Area",
+        searchVolume: 450,
+        currentPosition: 2,
+        previousPosition: 3,
+        change: 1,
+        serpFeatures: ["Reviews", "Local Pack"],
+        updatedAt: "Today",
+      },
+    ],
+    competitors: [
+      {
+        id: "comp-usr-1",
+        name: `${businessName} (You)`,
+        domain: domain,
+        overallScore: 72,
+        aiScore: 68,
+        localScore: 74,
+        seoScore: 76,
+        sharedKeywords: 2,
+        rankingOverlap: 100,
+        strengths: ["Domain Active", "Mobile Viewport Ready"],
+        weaknesses: ["Run Live Audit to discover critical issues"],
+      },
+      {
+        id: "comp-usr-2",
+        name: "Industry Leader Benchmark",
+        domain: "market-leader.com",
+        overallScore: 88,
+        aiScore: 82,
+        localScore: 86,
+        seoScore: 92,
+        sharedKeywords: 15,
+        rankingOverlap: 60,
+        strengths: ["High Domain Authority", "Full Schema.org markup"],
+        weaknesses: ["Higher enterprise pricing"],
+      },
+    ],
+    nap: {
+      businessName: businessName,
+      address: `${businessName} Headquarters & Service Area`,
+      phone: "Contact Details Available via Workspace",
+      directoryCount: 8,
+      hasLocalBusinessSchema: false,
+      hasGeoCoordinates: false,
+      hasMapEmbed: false,
+      schemaStatus: "Schema Check Pending (Run Free Schema Generator)",
     },
-  ],
-  aiQueries: [
-    {
-      id: "ai-de-1",
-      engine: "ChatGPT (GPT-4o)",
-      query: "Best commercial solar energy systems and installation reviews",
-      category: "Brand Recommendation",
-      mentioned: true,
-      recommended: true,
-      positionRank: 2,
-      contextSnippet: "Doart-Energy provides solar energy components, inverter setups, and technical consultations.",
-      competitorsMentioned: ["SunPower Global"],
-      citations: ["https://doartenergy.com"],
-      lastChecked: "Live Verified",
-    },
-    {
-      id: "ai-de-2",
-      engine: "Perplexity",
-      query: "Leading solar energy equipment providers with direct web portal",
-      category: "Local Intent",
-      mentioned: true,
-      recommended: true,
-      positionRank: 1,
-      contextSnippet: "Official domain doartenergy.com indexes clean power specs and enterprise inquiries.",
-      competitorsMentioned: ["Enphase Energy"],
-      citations: ["https://doartenergy.com/services"],
-      lastChecked: "Live Verified",
-    },
-    {
-      id: "ai-de-3",
-      engine: "Google Gemini",
-      query: "Top renewable energy solutions and solar system components",
-      category: "Service Comparison",
-      mentioned: true,
-      recommended: true,
-      positionRank: 1,
-      contextSnippet: "Doart-Energy (doartenergy.com) is indexed as a verified renewable technology provider.",
-      competitorsMentioned: ["Canadian Solar"],
-      citations: ["https://doartenergy.com"],
-      lastChecked: "Live Verified",
-    },
-  ],
-  keywords: [
-    {
-      id: "kw-de-1",
-      keyword: "solar energy systems",
-      location: "Service Area",
-      searchVolume: 3200,
-      currentPosition: 8,
-      previousPosition: 10,
-      change: 2,
-      serpFeatures: ["Organic Top 10", "AI Overview"],
-      updatedAt: "Today",
-    },
-    {
-      id: "kw-de-2",
-      keyword: "doartenergy.com reviews",
-      location: "Global",
-      searchVolume: 600,
-      currentPosition: 1,
-      previousPosition: 1,
-      change: 0,
-      serpFeatures: ["Knowledge Panel", "Site Links"],
-      updatedAt: "Today",
-    },
-    {
-      id: "kw-de-3",
-      keyword: "renewable power solutions",
-      location: "Service Area",
-      searchVolume: 1900,
-      currentPosition: 12,
-      previousPosition: 14,
-      change: 2,
-      serpFeatures: ["People Also Ask"],
-      updatedAt: "Today",
-    },
-  ],
-  competitors: [
-    {
-      id: "comp-de-1",
-      name: "Doart-Energy (You)",
-      domain: "doartenergy.com",
-      overallScore: 68,
-      aiScore: 55,
-      localScore: 45,
-      seoScore: 84,
-      sharedKeywords: 3,
-      rankingOverlap: 100,
-      strengths: ["Fast HTTP 200 response", "Clean SSL Certificate", "Mobile Viewport Ready"],
-      weaknesses: ["Missing LocalBusiness Schema", "Robots.txt AI bot declaration missing"],
-    },
-    {
-      id: "comp-de-2",
-      name: "SunPower Global",
-      domain: "sunpower.com",
-      overallScore: 89,
-      aiScore: 84,
-      localScore: 88,
-      seoScore: 94,
-      sharedKeywords: 28,
-      rankingOverlap: 70,
-      strengths: ["High Domain Authority", "Full Organization Schema"],
-      weaknesses: ["High enterprise pricing"],
-    },
-  ],
-  nap: {
-    businessName: "Doart-Energy",
-    address: "doartenergy.com Headquarters & Global Service Network",
-    phone: "Online & Enterprise Inquiries Active",
-    directoryCount: 8,
-    hasLocalBusinessSchema: false,
-    hasGeoCoordinates: false,
-    hasMapEmbed: false,
-    schemaStatus: "Schema Missing (Add via Free Tools)",
-  },
-};
+  };
+}
 
 const DEFAULT_DEMO_WORKSPACE: WorkspaceData = {
   id: DEMO_PROJECT.id,
@@ -443,12 +429,12 @@ const DEFAULT_DEMO_WORKSPACE: WorkspaceData = {
 };
 
 export function WorkspaceProvider({ children }: { children: React.ReactNode }) {
-  // Defaults to Doart-Energy workspace when user logs in
-  const [workspace, setWorkspace] = useState<WorkspaceData>(DOART_ENERGY_WORKSPACE);
-  const [hasCustomAudit, setHasCustomAudit] = useState(true);
+  const [workspace, setWorkspace] = useState<WorkspaceData>(DEFAULT_DEMO_WORKSPACE);
+  const [hasCustomAudit, setHasCustomAudit] = useState(false);
 
   useEffect(() => {
     try {
+      // 1. Prioritize live audit from scanner
       const saved = localStorage.getItem("omni_active_audit");
       if (saved) {
         const parsed: AuditResult = JSON.parse(saved);
@@ -459,14 +445,23 @@ export function WorkspaceProvider({ children }: { children: React.ReactNode }) {
         }
       }
 
-      // If user is logged in, prioritize Doart-Energy workspace over demo
-      const authUser = localStorage.getItem("omni_auth_user");
-      if (authUser) {
-        setWorkspace(DOART_ENERGY_WORKSPACE);
-        setHasCustomAudit(true);
+      // 2. If logged in with custom business/domain, build workspace for that user
+      const authUserRaw = localStorage.getItem("omni_auth_user");
+      if (authUserRaw) {
+        const authUser = JSON.parse(authUserRaw);
+        if (authUser.businessName || authUser.domain) {
+          setWorkspace(createWorkspaceFromAuthUser(authUser));
+          setHasCustomAudit(true);
+          return;
+        }
       }
+
+      // 3. Fallback to sample demo
+      setWorkspace(DEFAULT_DEMO_WORKSPACE);
+      setHasCustomAudit(false);
     } catch {
-      // Ignore parse error
+      setWorkspace(DEFAULT_DEMO_WORKSPACE);
+      setHasCustomAudit(false);
     }
   }, []);
 

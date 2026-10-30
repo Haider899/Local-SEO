@@ -32,51 +32,51 @@ interface EngineResult {
 }
 
 export default function AiVisibilityCheckerPage() {
-  const [domain, setDomain] = useState("doartenergy.com");
-  const [service, setService] = useState("solar energy solutions");
-  const [city, setCity] = useState("Islamabad, Pakistan");
+  const [domain, setDomain] = useState("");
+  const [service, setService] = useState("");
+  const [city, setCity] = useState("");
   const [isChecking, setIsChecking] = useState(false);
   const [checkError, setCheckError] = useState<string | null>(null);
 
-  const [overallScore, setOverallScore] = useState<number>(85);
+  const [overallScore, setOverallScore] = useState<number>(75);
   const [homepageReachable, setHomepageReachable] = useState<boolean>(true);
-  const [responseTimeMs, setResponseTimeMs] = useState<number>(240);
-  const [pageTitle, setPageTitle] = useState<string>("Do Art Energy");
+  const [responseTimeMs, setResponseTimeMs] = useState<number>(210);
+  const [pageTitle, setPageTitle] = useState<string>("Sample Domain");
   const [robotsTxtFound, setRobotsTxtFound] = useState<boolean>(true);
   const [schemasFound, setSchemasFound] = useState<string[]>(["LocalBusiness", "Organization"]);
   const [sameAsProfiles, setSameAsProfiles] = useState<string[]>([]);
   const [results, setResults] = useState<EngineResult[]>([
     {
       engine: "ChatGPT (GPT-4o)",
-      query: "Top recommended solar energy solutions in Islamabad, Pakistan",
+      query: "Top recommended commercial service providers and credentials",
       mentioned: true,
       status: "RECOMMENDED",
-      context: "Accessible to GPTBot crawler. Citing official domain for clean power commercial inquiries.",
-      citations: ["https://doartenergy.com"],
+      context: "Accessible to GPTBot crawler. Entity data and brand mentions indexed.",
+      citations: ["https://example.com"],
     },
     {
       engine: "Perplexity AI",
-      query: "Best verified solar energy solutions and customer pricing Islamabad",
+      query: "Best verified solutions and client reviews in target region",
       mentioned: true,
       status: "RECOMMENDED",
-      context: "Fast live crawl verified (240ms). Page title and commercial intent parsed.",
-      citations: ["https://doartenergy.com"],
+      context: "Fast live crawl verified. Clean heading hierarchy and location citations parsed.",
+      citations: ["https://example.com"],
     },
     {
       engine: "Google Gemini",
-      query: "Reliable solar energy solutions reviews and credentials in the region",
+      query: "Reliable business solutions and local presence verification",
       mentioned: true,
       status: "RECOMMENDED",
-      context: "Knowledge Graph and Google Maps verified citation.",
-      citations: ["https://doartenergy.com"],
+      context: "Knowledge Graph and local entity citation verified.",
+      citations: ["https://example.com"],
     },
     {
       engine: "Claude 3.5 Sonnet",
-      query: "Reputable solar energy solutions comparison and history",
+      query: "Reputable service comparisons and verified company background",
       mentioned: true,
       status: "RECOMMENDED",
-      context: "Semantic content and clean heading hierarchy parsed for contextual research queries.",
-      citations: ["https://doartenergy.com"],
+      context: "Semantic content and clean meta hierarchy parsed for contextual research queries.",
+      citations: ["https://example.com"],
     },
   ]);
 

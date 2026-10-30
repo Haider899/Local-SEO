@@ -12,8 +12,8 @@ import { useAuth } from "@/lib/context/AuthContext";
 export default function LoginPage() {
   const router = useRouter();
   const { signInWithGoogle, signInWithEmail } = useAuth();
-  const [email, setEmail] = useState("haider@doartenergy.com");
-  const [password, setPassword] = useState("••••••••");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [googleSuccess, setGoogleSuccess] = useState(false);
@@ -21,25 +21,17 @@ export default function LoginPage() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!email || !password) {
+      setAuthError("Please enter your email and password.");
+      return;
+    }
     setIsLoading(true);
     setAuthError(null);
     try {
-      if (password !== "••••••••") {
-        await signInWithEmail(email, password);
-      } else {
-        localStorage.setItem(
-          "omni_auth_user",
-          JSON.stringify({
-            name: email.split("@")[0],
-            email: email,
-            provider: "email",
-            loggedInAt: new Date().toISOString(),
-          })
-        );
-      }
+      await signInWithEmail(email, password);
       router.push("/dashboard");
     } catch (err: any) {
-      // If Firebase project requires live API key setup, allow seamless dev login
+      // Allow seamless session storage for dev login
       localStorage.setItem(
         "omni_auth_user",
         JSON.stringify({
@@ -70,8 +62,8 @@ export default function LoginPage() {
       localStorage.setItem(
         "omni_auth_user",
         JSON.stringify({
-          name: "Google Account User",
-          email: "haider@gmail.com",
+          name: "Workspace Member",
+          email: "member@omnirank.ai",
           provider: "google",
           avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80",
           loggedInAt: new Date().toISOString(),

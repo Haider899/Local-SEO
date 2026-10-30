@@ -358,7 +358,7 @@ export function Navbar() {
                     </div>
                   )}
                   <span className="truncate max-w-[120px]">{userDisplayName}</span>
-                  <span className="text-[10px] text-teal-700 font-semibold">(Go to Dashboard →)</span>
+                  <span className="text-[10px] text-teal-700 font-semibold">(Dashboard →)</span>
                 </Link>
               ) : (
                 <>
@@ -370,11 +370,11 @@ export function Navbar() {
                   </Link>
 
                   <Link
-                    href="/dashboard"
+                    href="/register"
                     className="crystal-button px-3.5 py-1.5 rounded-full text-xs font-semibold text-slate-800 flex items-center gap-1.5 transition-all duration-200"
                   >
                     <Zap className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>Dashboard</span>
+                    <span>Get Started</span>
                   </Link>
                 </>
               )}
@@ -441,13 +441,23 @@ export function Navbar() {
               >
                 12 Free Tools Hub
               </Link>
-              <Link
-                href="/dashboard"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block px-3 py-1.5 text-sm font-semibold text-slate-800 hover:bg-slate-50 rounded-lg"
-              >
-                SaaS Dashboard
-              </Link>
+              {isLoggedIn ? (
+                <Link
+                  href="/dashboard"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block px-3 py-1.5 text-sm font-semibold text-slate-800 hover:bg-slate-50 rounded-lg"
+                >
+                  SaaS Dashboard
+                </Link>
+              ) : (
+                <Link
+                  href="/register"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block px-3 py-1.5 text-sm font-semibold text-teal-700 hover:bg-teal-50 rounded-lg"
+                >
+                  Get Started / Register
+                </Link>
+              )}
               <Link
                 href="/pricing"
                 onClick={() => setMobileMenuOpen(false)}

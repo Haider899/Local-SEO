@@ -141,10 +141,10 @@ const DEFAULT_PACKAGES: PackageRecord[] = [
 const DEFAULT_CLIENTS: ClientRecord[] = [
   {
     id: "biz_101",
-    businessName: "Doart-Energy",
-    domain: "doartenergy.com",
-    ownerName: "Haider Raza",
-    ownerEmail: "haider@doartenergy.com",
+    businessName: "Apex Dynamics",
+    domain: "apexdynamics.com",
+    ownerName: "Sarah Jenkins",
+    ownerEmail: "client@apexdynamics.com",
     phone: "+1 (512) 555-0192",
     plan: "Package 2 ($50/mo)",
     mrr: 50,
@@ -152,7 +152,7 @@ const DEFAULT_CLIENTS: ClientRecord[] = [
     automationPaused: false,
     mode: "Auto",
     gmbConnected: true,
-    joinedDate: "Today (Live Client)",
+    joinedDate: "Live Client",
     lastLoginDate: "Just now",
     healthScore: 78,
     lastActionTaken: "Published weekly service update & responded to 5-star review",

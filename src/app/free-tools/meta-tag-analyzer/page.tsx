@@ -16,10 +16,10 @@ import {
 } from "lucide-react";
 
 export default function MetaTagAnalyzerPage() {
-  const [url, setUrl] = useState("https://doartenergy.com");
-  const [title, setTitle] = useState("Do Art Energy | Solar & Sustainable Power Solutions");
+  const [url, setUrl] = useState("");
+  const [title, setTitle] = useState("Apex Solutions | Enterprise Engineering & Local SEO");
   const [metaDesc, setMetaDesc] = useState(
-    "Empowering sustainable futures with reliable solar energy systems, clean power consulting, and commercial renewable installations."
+    "Empowering sustainable growth with premier local search visibility, AI citation readiness, and high-performance technical optimization."
   );
   const [previewMode, setPreviewMode] = useState<"desktop" | "mobile">("desktop");
   const [isFetching, setIsFetching] = useState(false);

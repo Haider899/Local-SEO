@@ -35,7 +35,7 @@ import {
 function DashboardLayoutInner({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
-  const { user, logout: firebaseLogout } = useAuth();
+  const { user, loading: authLoading, logout: firebaseLogout } = useAuth();
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [switcherOpen, setSwitcherOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
@@ -47,23 +47,38 @@ function DashboardLayoutInner({ children }: { children: React.ReactNode }) {
     avatar?: string;
     provider?: string;
   } | null>(null);
+  const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
 
   useEffect(() => {
     try {
       const raw = localStorage.getItem("omni_auth_user");
+      let parsedUser = null;
       if (raw) {
-        setStoredUser(JSON.parse(raw));
+        parsedUser = JSON.parse(raw);
+        setStoredUser(parsedUser);
+      }
+
+      if (!authLoading) {
+        if (!user && !parsedUser) {
+          setIsAuthorized(false);
+          router.replace(`/login?redirect=${encodeURIComponent(pathname)}`);
+        } else {
+          setIsAuthorized(true);
+        }
       }
     } catch {
-      // Ignore
+      if (!authLoading && !user) {
+        setIsAuthorized(false);
+        router.replace(`/login?redirect=${encodeURIComponent(pathname)}`);
+      }
     }
-  }, [user]);
+  }, [user, authLoading, pathname, router]);
 
-  // Displayed user name & email (prefers live Firebase User, then localStorage, then workspace)
+  // Displayed user name & email (prefers live Firebase User, then localStorage, then clean fallback)
   const displayName =
-    user?.displayName || storedUser?.name || "Workspace Owner";
+    user?.displayName || storedUser?.name || "Workspace Member";
   const displayEmail =
-    user?.email || storedUser?.email || "haider@doartenergy.com";
+    user?.email || storedUser?.email || "member@workspace.com";
   const displayAvatar = user?.photoURL || storedUser?.avatar || null;
   const isGoogleAuth = Boolean(
     user?.providerData?.some((p) => p.providerId === "google.com") ||
@@ -74,6 +89,7 @@ function DashboardLayoutInner({ children }: { children: React.ReactNode }) {
     try {
       await firebaseLogout();
       localStorage.removeItem("omni_auth_user");
+      localStorage.removeItem("omni_active_audit");
     } catch {
       // Ignore
     }
@@ -90,6 +106,24 @@ function DashboardLayoutInner({ children }: { children: React.ReactNode }) {
     { label: "Smart Tasks", href: "/dashboard/tasks", icon: CheckSquare, badge: `${workspace.tasks.length} Open` },
     { label: "Reports", href: "/dashboard/reports", icon: FileBarChart2 },
   ];
+
+  if (authLoading || isAuthorized !== true) {
+    return (
+      <div className="min-h-screen bg-slate-900 flex flex-col items-center justify-center p-4">
+        <div className="flex flex-col items-center gap-4 max-w-sm text-center">
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-teal-500 via-emerald-500 to-sky-400 flex items-center justify-center text-white shadow-lg shadow-teal-500/20 animate-pulse">
+            <Globe className="w-6 h-6 animate-spin" />
+          </div>
+          <div>
+            <h3 className="text-white font-bold text-base">Authenticating Session</h3>
+            <p className="text-slate-400 text-xs mt-1">
+              Verifying workspace credentials & access permissions...
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row text-slate-900">

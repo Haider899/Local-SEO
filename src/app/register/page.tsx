@@ -222,7 +222,7 @@ function RegisterContent() {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="haider@doartenergy.com"
+                    placeholder="name@company.com"
                     className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 text-xs focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500"
                   />
                 </div>
@@ -238,7 +238,7 @@ function RegisterContent() {
                     required
                     value={businessName}
                     onChange={(e) => setBusinessName(e.target.value)}
-                    placeholder="Doart-Energy"
+                    placeholder="e.g. Acme Corporation"
                     className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 text-xs focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
                 </div>
@@ -251,7 +251,7 @@ function RegisterContent() {
                     type="text"
                     value={domain}
                     onChange={(e) => setDomain(e.target.value)}
-                    placeholder="doartenergy.com"
+                    placeholder="example.com"
                     className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 text-xs focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500"
                   />
                 </div>

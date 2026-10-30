@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 
 export default function RobotsTxtCheckerPage() {
-  const [targetUrl, setTargetUrl] = useState("https://doartenergy.com");
+  const [targetUrl, setTargetUrl] = useState("");
   const [robotsText, setRobotsText] = useState(`User-agent: *
 Allow: /
 Disallow: /admin/

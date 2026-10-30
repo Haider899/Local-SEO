@@ -26,16 +26,16 @@ import {
 
 export default function LocalBusinessSchemaGeneratorPage() {
   const [businessType, setBusinessType] = useState("ProfessionalService");
-  const [name, setName] = useState("Doart-Energy");
-  const [url, setUrl] = useState("https://doartenergy.com");
-  const [telephone, setTelephone] = useState("+92-300-1234567");
-  const [streetAddress, setStreetAddress] = useState("Doart Energy Headquarters, Commercial Hub");
-  const [city, setCity] = useState("Islamabad");
-  const [state, setState] = useState("Federal");
-  const [postalCode, setPostalCode] = useState("44000");
-  const [country, setCountry] = useState("PK");
-  const [latitude, setLatitude] = useState("33.6844");
-  const [longitude, setLongitude] = useState("73.0479");
+  const [name, setName] = useState("Apex Solutions");
+  const [url, setUrl] = useState("https://apexsolutions.com");
+  const [telephone, setTelephone] = useState("+1 (555) 234-5678");
+  const [streetAddress, setStreetAddress] = useState("100 Main Street, Suite 400");
+  const [city, setCity] = useState("Austin");
+  const [state, setState] = useState("TX");
+  const [postalCode, setPostalCode] = useState("78701");
+  const [country, setCountry] = useState("US");
+  const [latitude, setLatitude] = useState("30.2672");
+  const [longitude, setLongitude] = useState("-97.7431");
   const [priceRange, setPriceRange] = useState("$$$");
   const [copied, setCopied] = useState(false);
   const [isDetectingLocation, setIsDetectingLocation] = useState(false);
@@ -65,23 +65,34 @@ export default function LocalBusinessSchemaGeneratorPage() {
             setStreetAddress(audit.rawData.addressDetected);
           } else if (audit.location && audit.location !== "Local Service Area") {
             setStreetAddress(`${audit.location} Office`);
-            setCity(audit.location.split(",")[0]?.trim() || "Islamabad");
+            setCity(audit.location.split(",")[0]?.trim() || "Austin");
           }
           return;
         }
       }
 
-      // Default to active Doart-Energy
-      setAutoFilledDomain("doartenergy.com");
-      setName("Doart-Energy");
-      setUrl("https://doartenergy.com");
-      setStreetAddress("Doart Energy Headquarters");
-      setCity("Islamabad");
-      setState("Federal");
-      setPostalCode("44000");
-      setCountry("PK");
-      setLatitude("33.6844");
-      setLongitude("73.0479");
+      const authUserRaw = localStorage.getItem("omni_auth_user");
+      if (authUserRaw) {
+        const authUser = JSON.parse(authUserRaw);
+        if (authUser.businessName) setName(authUser.businessName);
+        if (authUser.domain) {
+          setUrl(`https://${authUser.domain}`);
+          setAutoFilledDomain(authUser.domain);
+        }
+        return;
+      }
+
+      // Default sample
+      setAutoFilledDomain(null);
+      setName("Apex Solutions");
+      setUrl("https://apexsolutions.com");
+      setStreetAddress("100 Main Street, Suite 400");
+      setCity("Austin");
+      setState("TX");
+      setPostalCode("78701");
+      setCountry("US");
+      setLatitude("30.2672");
+      setLongitude("-97.7431");
       setBusinessType("ProfessionalService");
     } catch {
       // Ignore
@@ -269,7 +280,7 @@ export default function LocalBusinessSchemaGeneratorPage() {
                       type="text"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      placeholder="e.g. Doart-Energy"
+                      placeholder="e.g. Acme Corporation"
                       className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-teal-500 focus:bg-white"
                     />
                   </div>
@@ -284,7 +295,7 @@ export default function LocalBusinessSchemaGeneratorPage() {
                       type="url"
                       value={url}
                       onChange={(e) => setUrl(e.target.value)}
-                      placeholder="https://doartenergy.com"
+                      placeholder="https://example.com"
                       className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-teal-500 focus:bg-white"
                     />
                   </div>
