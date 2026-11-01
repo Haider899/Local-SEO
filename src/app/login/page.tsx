@@ -31,17 +31,11 @@ export default function LoginPage() {
       await signInWithEmail(email, password);
       router.push("/dashboard");
     } catch (err: any) {
-      // Allow seamless session storage for dev login
-      localStorage.setItem(
-        "omni_auth_user",
-        JSON.stringify({
-          name: email.split("@")[0],
-          email: email,
-          provider: "email",
-          loggedInAt: new Date().toISOString(),
-        })
-      );
-      router.push("/dashboard");
+      const msg =
+        err.code === "auth/invalid-credential" || err.code === "auth/user-not-found" || err.code === "auth/wrong-password"
+          ? "Invalid email or password. Please verify your credentials or register a new account."
+          : err.message || "Failed to sign in. Please try again.";
+      setAuthError(msg);
     } finally {
       setIsLoading(false);
     }
@@ -57,22 +51,25 @@ export default function LoginPage() {
         router.push("/dashboard");
       }, 500);
     } catch (err: any) {
-      console.warn("Google popup trigger:", err);
-      // Seamless dev fallback if API keys pending in .env.local
-      localStorage.setItem(
-        "omni_auth_user",
-        JSON.stringify({
-          name: "Workspace Member",
-          email: "member@itibusinesssuite.online",
-          provider: "google",
-          avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80",
-          loggedInAt: new Date().toISOString(),
-        })
-      );
-      setGoogleSuccess(true);
-      setTimeout(() => {
-        router.push("/dashboard");
-      }, 600);
+      console.error("Google popup error:", err);
+      let userFriendlyMsg = "Google Sign-In failed. Please try again.";
+
+      if (err.code === "auth/unauthorized-domain") {
+        userFriendlyMsg =
+          "Domain is not authorized in Firebase. Please add 'itibusinesssuite.online' and 'seo.itibusinesssuite.online' under Firebase Console > Authentication > Settings > Authorized domains.";
+      } else if (err.code === "auth/popup-blocked") {
+        userFriendlyMsg =
+          "Sign-in popup was blocked by your browser. Please allow popups or turn off Brave Shields for this domain.";
+      } else if (err.code === "auth/popup-closed-by-user") {
+        userFriendlyMsg =
+          "Sign-in was cancelled before selecting an account. Please click again to select your Google account.";
+      } else if (err.code === "auth/cancelled-popup-request") {
+        userFriendlyMsg = "Sign-in request was replaced. Please try again.";
+      } else if (err.message) {
+        userFriendlyMsg = err.message;
+      }
+
+      setAuthError(userFriendlyMsg);
     } finally {
       setIsGoogleLoading(false);
     }

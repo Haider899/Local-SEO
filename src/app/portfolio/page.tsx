@@ -10,7 +10,7 @@ import { ArrowUpRight, TrendingUp, Star, Globe, Award, Sparkles } from "lucide-r
 const PROJECTS = [
   {
     id: "proj-1",
-    title: "Apex Dental & Orthodontics",
+    title: "Metro Healthcare & Orthodontics",
     category: "Local SEO & GMB",
     service: "GMB + Website SEO (Package 2)",
     results: [
@@ -19,7 +19,7 @@ const PROJECTS = [
       { label: "5-Star Review Rating", value: "4.9 (310+ Reviews)" },
     ],
     description:
-      "Automated weekly geo-grid ranking intelligence, AI-drafted review responses, and LocalBusiness schema implementation that propelled this Austin dental practice to #1 across 28 localized keywords.",
+      "Automated weekly geo-grid ranking intelligence, AI-drafted review responses, and LocalBusiness schema implementation that propelled this practice to #1 across 28 localized keywords.",
     tags: ["5x5 Geo-Grid", "AI Review Manager", "Schema Generator"],
   },
   {

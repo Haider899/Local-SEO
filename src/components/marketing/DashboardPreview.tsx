@@ -35,9 +35,9 @@ export function DashboardPreview() {
             <div className="h-4 w-[1px] bg-teal-200 mx-1" />
             <div className="flex items-center gap-2 text-xs text-slate-700 font-semibold bg-white px-3 py-1.5 rounded-lg border border-teal-200/70 shadow-2xs">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="text-slate-900 font-bold">Apex Dental Care</span>
+              <span className="text-slate-900 font-bold">Innovative Enterprise Client</span>
               <span className="text-slate-400">•</span>
-              <span className="text-slate-500 font-normal">Austin, TX</span>
+              <span className="text-slate-500 font-normal">Active GMB & SEO Workspace</span>
             </div>
           </div>
 
@@ -202,15 +202,15 @@ export function DashboardPreview() {
                     <div className="p-2.5 rounded-xl bg-white border border-teal-100 flex items-center justify-between">
                       <div className="flex items-center gap-2 truncate">
                         <span className="px-2 py-0.5 rounded bg-teal-50 text-teal-800 text-[10px] font-bold border border-teal-200">ChatGPT</span>
-                        <span className="text-slate-800 font-medium truncate">"Best cosmetic dentist for veneers in Austin"</span>
+                        <span className="text-slate-800 font-medium truncate">"Top rated local commercial services & reviews"</span>
                       </div>
-                      <Badge variant="success" size="sm">#2 Ranked</Badge>
+                      <Badge variant="success" size="sm">#1 Ranked</Badge>
                     </div>
 
                     <div className="p-2.5 rounded-xl bg-white border border-teal-100 flex items-center justify-between">
                       <div className="flex items-center gap-2 truncate">
                         <span className="px-2 py-0.5 rounded bg-teal-50 text-teal-800 text-[10px] font-bold border border-teal-200">Perplexity</span>
-                        <span className="text-slate-800 font-medium truncate">"Emergency dental clinic open Saturdays downtown"</span>
+                        <span className="text-slate-800 font-medium truncate">"Best verified service company near me"</span>
                       </div>
                       <Badge variant="success" size="sm">#1 Recommended</Badge>
                     </div>
@@ -218,9 +218,9 @@ export function DashboardPreview() {
                     <div className="p-2.5 rounded-xl bg-white border border-teal-100 flex items-center justify-between">
                       <div className="flex items-center gap-2 truncate">
                         <span className="px-2 py-0.5 rounded bg-teal-50 text-teal-800 text-[10px] font-bold border border-teal-200">Gemini</span>
-                        <span className="text-slate-800 font-medium truncate">"Top Invisalign diamond providers in Central Texas"</span>
+                        <span className="text-slate-800 font-medium truncate">"Trusted enterprise technology provider & local presence"</span>
                       </div>
-                      <Badge variant="teal" size="sm">Mentioned</Badge>
+                      <Badge variant="teal" size="sm">Cited & Active</Badge>
                     </div>
                   </div>
                 </div>
@@ -275,7 +275,7 @@ export function DashboardPreview() {
                     <MapPin className="w-4 h-4 text-emerald-600" /> Geo-Grid 3-Pack Heatmap Simulator
                   </h4>
                   <p className="text-xs text-emerald-800/80 mt-0.5 font-medium">
-                    Local rankings for "cosmetic dentist austin" across a 5x5 mile grid.
+                    Simulated multi-point Geo-Grid rankings across a 5x5 mile local radius.
                   </p>
                 </div>
                 <Badge variant="success">Radius: 5 Miles</Badge>

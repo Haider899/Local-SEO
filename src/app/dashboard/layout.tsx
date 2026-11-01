@@ -52,15 +52,16 @@ function DashboardLayoutInner({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     try {
       const raw = localStorage.getItem("omni_auth_user");
-      let parsedUser = null;
       if (raw) {
-        parsedUser = JSON.parse(raw);
-        setStoredUser(parsedUser);
+        setStoredUser(JSON.parse(raw));
       }
 
       if (!authLoading) {
-        if (!user && !parsedUser) {
+        if (!user) {
           setIsAuthorized(false);
+          try {
+            localStorage.removeItem("omni_auth_user");
+          } catch {}
           router.replace(`/login?redirect=${encodeURIComponent(pathname)}`);
         } else {
           setIsAuthorized(true);

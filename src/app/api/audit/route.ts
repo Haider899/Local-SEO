@@ -1,3 +1,11 @@
+if (typeof globalThis.File === "undefined") {
+  try {
+    const { File, Blob } = require("node:buffer");
+    if (File) (globalThis as any).File = File;
+    if (Blob) (globalThis as any).Blob = Blob;
+  } catch {}
+}
+
 import { NextRequest, NextResponse } from "next/server";
 import { runWebsiteAudit } from "@/lib/audit/engine";
 import { saveAuditResult } from "@/lib/store";

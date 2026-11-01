@@ -159,10 +159,10 @@ const DEFAULT_CLIENTS: ClientRecord[] = [
   },
   {
     id: "biz_102",
-    businessName: "Apex Dental & Orthodontics",
-    domain: "apexdentalcare.com",
+    businessName: "Metro Health Group",
+    domain: "metrohealthgroup.com",
     ownerName: "Dr. Marcus Vance",
-    ownerEmail: "dr.vance@apexdentalcare.com",
+    ownerEmail: "contact@metrohealthgroup.com",
     phone: "+1 (415) 555-8391",
     plan: "Package 1 ($20/mo)",
     mrr: 20,

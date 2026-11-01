@@ -8,11 +8,11 @@ import { Badge } from "@/ui/Badge";
 import { MessageSquare, Star, Copy, Check, Sparkles, Send } from "lucide-react";
 
 export default function ReviewResponseGeneratorPage() {
-  const [businessName, setBusinessName] = useState("Apex Dental Care");
-  const [reviewerName, setReviewerName] = useState("Sarah Miller");
+  const [businessName, setBusinessName] = useState("Your Business Name");
+  const [reviewerName, setReviewerName] = useState("Sarah Jenkins");
   const [rating, setRating] = useState<number>(5);
   const [reviewText, setReviewText] = useState(
-    "Had an emergency tooth extraction yesterday. The doctor and staff were so compassionate, gentle, and fast! Highly recommend this clinic."
+    "Outstanding service and very responsive team! Delivered everything ahead of schedule with great attention to detail. Highly recommend!"
   );
   const [tone, setTone] = useState<"professional" | "friendly" | "empathic" | "concise">("professional");
   const [generatedReply, setGeneratedReply] = useState("");

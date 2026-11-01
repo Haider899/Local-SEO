@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { useAuth } from "./AuthContext";
 import { AuditResult, SmartTask, AIQueryCheck, KeywordRanking, CompetitorComparison, VisibilityGrade } from "@/types";
 import { DEMO_PROJECT, DEMO_AI_QUERIES, DEMO_KEYWORDS, DEMO_TASKS, DEMO_COMPETITORS } from "@/lib/store";
 
@@ -235,28 +236,32 @@ export function createWorkspaceFromAuthUser(user: {
   domain?: string;
   email?: string;
 }): WorkspaceData {
-  const businessName = user.businessName || (user.name ? `${user.name}'s Business` : "My Business");
-  const domain = user.domain || (user.email ? user.email.split("@")[1] : "example.com");
+  const businessName = user.businessName || (user.name ? `${user.name}'s Workspace` : "Innovative Client Workspace");
+  const domain =
+    user.domain ||
+    (user.email && !user.email.includes("gmail.com") && !user.email.includes("yahoo.com") && !user.email.includes("hotmail.com")
+      ? user.email.split("@")[1]
+      : "itibusinesssuite.online");
 
   return {
     id: `ws-${Date.now()}`,
     name: businessName,
     domain: domain,
-    location: "Local Service Area",
-    primaryService: "Local Business & Services",
+    location: "Global Service Network",
+    primaryService: "Local SEO & Digital Acceleration",
     targetKeyword: `${businessName.toLowerCase()}`,
-    overallVisibilityScore: 72,
+    overallVisibilityScore: 74,
     grade: "B",
-    aiVisibilityScore: 68,
-    localVisibilityScore: 74,
-    seoHealthScore: 76,
-    technicalScore: 70,
+    aiVisibilityScore: 70,
+    localVisibilityScore: 76,
+    seoHealthScore: 78,
+    technicalScore: 72,
     categoryScores: {
-      seo: 76,
-      technical: 70,
-      local: 74,
-      ai: 68,
-      authority: 65,
+      seo: 78,
+      technical: 72,
+      local: 76,
+      ai: 70,
+      authority: 68,
     },
     isLiveAudit: false,
     issuesCount: {
@@ -273,7 +278,7 @@ export function createWorkspaceFromAuthUser(user: {
         impact: "High",
         difficulty: "Easy",
         status: "open",
-        explanation: `Run a live audit on ${domain} to replace baseline estimates with real crawl data.`,
+        explanation: `Run a live audit on your target domain to replace baseline metrics with real crawl data.`,
         action: "Click 'Scan New Site' in the top header to run your live domain audit.",
       },
       {
@@ -308,7 +313,7 @@ export function createWorkspaceFromAuthUser(user: {
         mentioned: true,
         recommended: true,
         positionRank: 1,
-        contextSnippet: `${businessName} (${domain}) is recognized for verified local services and customer satisfaction.`,
+        contextSnippet: `${businessName} (${domain}) is indexed for verified commercial operations and customer fulfillment.`,
         competitorsMentioned: ["Regional Benchmark"],
         citations: [`https://${domain}`],
         lastChecked: "Baseline Scan",
@@ -321,7 +326,7 @@ export function createWorkspaceFromAuthUser(user: {
         mentioned: true,
         recommended: false,
         positionRank: 2,
-        contextSnippet: `${businessName} provides verified service in its target area.`,
+        contextSnippet: `${businessName} provides verified solutions in its target markets.`,
         competitorsMentioned: ["Competitor Brand"],
         citations: [`https://${domain}`],
         lastChecked: "Baseline Scan",
@@ -331,7 +336,7 @@ export function createWorkspaceFromAuthUser(user: {
       {
         id: "kw-usr-1",
         keyword: `${businessName.toLowerCase()}`,
-        location: "Service Area",
+        location: "Primary Market",
         searchVolume: 1200,
         currentPosition: 1,
         previousPosition: 1,
@@ -342,7 +347,7 @@ export function createWorkspaceFromAuthUser(user: {
       {
         id: "kw-usr-2",
         keyword: `${businessName.toLowerCase()} reviews`,
-        location: "Service Area",
+        location: "Primary Market",
         searchVolume: 450,
         currentPosition: 2,
         previousPosition: 3,
@@ -356,10 +361,10 @@ export function createWorkspaceFromAuthUser(user: {
         id: "comp-usr-1",
         name: `${businessName} (You)`,
         domain: domain,
-        overallScore: 72,
-        aiScore: 68,
-        localScore: 74,
-        seoScore: 76,
+        overallScore: 74,
+        aiScore: 70,
+        localScore: 76,
+        seoScore: 78,
         sharedKeywords: 2,
         rankingOverlap: 100,
         strengths: ["Domain Active", "Mobile Viewport Ready"],
@@ -381,7 +386,7 @@ export function createWorkspaceFromAuthUser(user: {
     ],
     nap: {
       businessName: businessName,
-      address: `${businessName} Headquarters & Service Area`,
+      address: `${businessName} Headquarters & Delivery Network`,
       phone: "Contact Details Available via Workspace",
       directoryCount: 8,
       hasLocalBusinessSchema: false,
@@ -393,22 +398,28 @@ export function createWorkspaceFromAuthUser(user: {
 }
 
 const DEFAULT_DEMO_WORKSPACE: WorkspaceData = {
-  id: DEMO_PROJECT.id,
-  name: DEMO_PROJECT.name,
-  domain: DEMO_PROJECT.domain,
-  location: DEMO_PROJECT.location,
-  primaryService: "Dentist & Orthodontics",
-  targetKeyword: "cosmetic dentist austin",
-  overallVisibilityScore: DEMO_PROJECT.overallVisibilityScore,
-  grade: DEMO_PROJECT.grade,
-  aiVisibilityScore: DEMO_PROJECT.aiVisibilityScore,
-  localVisibilityScore: DEMO_PROJECT.localVisibilityScore,
-  seoHealthScore: DEMO_PROJECT.seoHealthScore,
-  technicalScore: DEMO_PROJECT.technicalScore,
-  categoryScores: DEMO_PROJECT.categoryScores,
+  id: "demo-innovative",
+  name: "Innovative Local Engine",
+  domain: "itibusinesssuite.online",
+  location: "Global Delivery Network",
+  primaryService: "Local SEO & GMB Growth",
+  targetKeyword: "local seo software",
+  overallVisibilityScore: 78,
+  grade: "B",
+  aiVisibilityScore: 74,
+  localVisibilityScore: 82,
+  seoHealthScore: 80,
+  technicalScore: 76,
+  categoryScores: {
+    seo: 80,
+    technical: 76,
+    local: 82,
+    ai: 74,
+    authority: 70,
+  },
   isLiveAudit: false,
   issuesCount: {
-    critical: 2,
+    critical: 1,
     warnings: 3,
     passed: 14,
   },
@@ -417,24 +428,37 @@ const DEFAULT_DEMO_WORKSPACE: WorkspaceData = {
   keywords: DEMO_KEYWORDS,
   competitors: DEMO_COMPETITORS,
   nap: {
-    businessName: "Apex Dental & Orthodontics",
-    address: "100 Congress Ave, Suite 400, Austin, TX 78701",
-    phone: "(512) 555-0199 • Mo-Sa Open",
+    businessName: "Innovative Technology Group",
+    address: "ITI Business Suite Digital Network",
+    phone: "Direct Support Portal Active",
     directoryCount: 14,
     hasLocalBusinessSchema: true,
     hasGeoCoordinates: true,
     hasMapEmbed: true,
-    schemaStatus: "Geo-Coordinates verified (30.2672, -97.7431)",
+    schemaStatus: "Schema verified and live",
   },
 };
 
 export function WorkspaceProvider({ children }: { children: React.ReactNode }) {
+  const { user } = useAuth();
   const [workspace, setWorkspace] = useState<WorkspaceData>(DEFAULT_DEMO_WORKSPACE);
   const [hasCustomAudit, setHasCustomAudit] = useState(false);
 
   useEffect(() => {
     try {
-      // 1. Prioritize live audit from scanner
+      // 1. If user is logged in, prioritize user's own workspace
+      if (user) {
+        setWorkspace(
+          createWorkspaceFromAuthUser({
+            name: user.displayName || user.email?.split("@")[0] || "Client",
+            email: user.email || undefined,
+          })
+        );
+        setHasCustomAudit(true);
+        return;
+      }
+
+      // 2. If an audit was actively run
       const saved = localStorage.getItem("omni_active_audit");
       if (saved) {
         const parsed: AuditResult = JSON.parse(saved);
@@ -445,25 +469,14 @@ export function WorkspaceProvider({ children }: { children: React.ReactNode }) {
         }
       }
 
-      // 2. If logged in with custom business/domain, build workspace for that user
-      const authUserRaw = localStorage.getItem("omni_auth_user");
-      if (authUserRaw) {
-        const authUser = JSON.parse(authUserRaw);
-        if (authUser.businessName || authUser.domain) {
-          setWorkspace(createWorkspaceFromAuthUser(authUser));
-          setHasCustomAudit(true);
-          return;
-        }
-      }
-
-      // 3. Fallback to sample demo
+      // 3. Fallback to clean showcase
       setWorkspace(DEFAULT_DEMO_WORKSPACE);
       setHasCustomAudit(false);
     } catch {
       setWorkspace(DEFAULT_DEMO_WORKSPACE);
       setHasCustomAudit(false);
     }
-  }, []);
+  }, [user]);
 
   const saveAuditAsActiveWorkspace = (audit: AuditResult) => {
     try {

@@ -290,16 +290,16 @@ export function HeroScanner() {
                 type="button"
                 onClick={() =>
                   handlePreset(
-                    "https://apexdentalcare.com",
-                    "Apex Dental Care",
-                    "Austin, TX",
-                    "cosmetic dentist"
+                    "https://itibusinesssuite.online",
+                    "Innovative Technology Solutions",
+                    "National Coverage",
+                    "local seo software"
                   )
                 }
                 className="text-xs px-3 py-1.5 rounded-xl bg-teal-50/80 hover:bg-teal-100/90 text-teal-900 font-medium border border-teal-200/80 transition-all flex items-center gap-1.5 shadow-sm"
               >
                 <Building className="w-3.5 h-3.5 text-teal-600" />
-                <span>apexdentalcare.com</span>
+                <span>itibusinesssuite.online</span>
               </button>
 
               <button

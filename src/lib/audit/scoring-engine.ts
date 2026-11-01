@@ -292,7 +292,7 @@ export function calculateScoresAndIssues(
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
   "name": "${businessName || "Your Business Name"}",
-  "telephone": "${raw.phonesFound[0] || "+1-555-0199"}",
+  "telephone": "${raw.phonesFound[0] || "+1-800-000-0000"}",
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "123 Main Street",
