@@ -552,7 +552,13 @@ export function WorkspaceProvider({ children }: { children: React.ReactNode }) {
 export function useWorkspace() {
   const context = useContext(WorkspaceContext);
   if (!context) {
-    throw new Error("useWorkspace must be used within a WorkspaceProvider");
+    return {
+      workspace: DEFAULT_DEMO_WORKSPACE,
+      saveAuditAsActiveWorkspace: () => {},
+      resetToDemoWorkspace: () => {},
+      updateWorkspace: () => {},
+      hasCustomAudit: false,
+    };
   }
   return context;
 }

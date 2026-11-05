@@ -48,6 +48,7 @@ export const metadata: Metadata = {
 };
 
 import { AuthProvider } from "@/lib/context/AuthContext";
+import { WorkspaceProvider } from "@/lib/context/WorkspaceContext";
 
 export default function RootLayout({
   children,
@@ -76,7 +77,9 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
         />
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+          <WorkspaceProvider>{children}</WorkspaceProvider>
+        </AuthProvider>
       </body>
     </html>
   );

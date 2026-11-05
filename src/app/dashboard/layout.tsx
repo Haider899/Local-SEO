@@ -434,9 +434,5 @@ function DashboardLayoutInner({ children }: { children: React.ReactNode }) {
 }
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <WorkspaceProvider>
-      <DashboardLayoutInner>{children}</DashboardLayoutInner>
-    </WorkspaceProvider>
-  );
+  return <DashboardLayoutInner>{children}</DashboardLayoutInner>;
 }

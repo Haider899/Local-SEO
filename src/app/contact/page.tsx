@@ -107,7 +107,7 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider">Support Portal</h4>
-                      <p className="text-slate-900 text-sm font-bold mt-0.5">haiderusama707@gmail.com</p>
+                      <p className="text-slate-900 text-sm font-bold mt-0.5">support@itibusinesssuite.online</p>
                       <p className="text-slate-500 text-xs mt-0.5">Direct technical & project desk</p>
                     </div>
                   </div>

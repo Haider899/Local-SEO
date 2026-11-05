@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { AlertCircle, RefreshCw, Home } from "lucide-react";
+import { AlertCircle, RefreshCw, Home, ShieldAlert } from "lucide-react";
 
 export default function ErrorBoundary({
   error,
@@ -11,12 +11,24 @@ export default function ErrorBoundary({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const [showDetails, setShowDetails] = useState(false);
+
   useEffect(() => {
     console.error("Application Client Error caught by boundary:", error);
   }, [error]);
 
+  const handleReset = () => {
+    try {
+      // Clear any corrupted local state that might have crashed hydration
+      localStorage.removeItem("omni_active_audit");
+    } catch {
+      // ignore
+    }
+    reset();
+  };
+
   return (
-    <div className="min-h-screen bg-slate-900 flex flex-col items-center justify-center p-6 text-center">
+    <div className="min-h-screen bg-slate-900 flex flex-col items-center justify-center p-6 text-center font-sans">
       <div className="max-w-md w-full p-8 rounded-3xl bg-slate-800/90 border border-slate-700/80 shadow-2xl space-y-5">
         <div className="w-14 h-14 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-400 flex items-center justify-center mx-auto">
           <AlertCircle className="w-7 h-7" />
@@ -27,11 +39,27 @@ export default function ErrorBoundary({
           <p className="text-slate-400 text-xs leading-relaxed font-normal">
             A temporary client rendering error occurred. You can reload this component or navigate back to the homepage.
           </p>
+          {error?.message && (
+            <div className="pt-1">
+              <button
+                type="button"
+                onClick={() => setShowDetails(!showDetails)}
+                className="text-[11px] text-teal-400 hover:text-teal-300 font-semibold"
+              >
+                {showDetails ? "Hide Error Details" : "View Technical Details"}
+              </button>
+              {showDetails && (
+                <div className="mt-2 p-3 rounded-xl bg-slate-950/80 border border-slate-700 text-left text-[11px] font-mono text-rose-300 break-all max-h-32 overflow-y-auto">
+                  {error.message}
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         <div className="flex items-center justify-center gap-3 pt-2">
           <button
-            onClick={() => reset()}
+            onClick={handleReset}
             className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold transition-all shadow-md active:scale-95"
           >
             <RefreshCw className="w-3.5 h-3.5" />
@@ -50,4 +78,3 @@ export default function ErrorBoundary({
     </div>
   );
 }
-

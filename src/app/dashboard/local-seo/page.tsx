@@ -83,43 +83,52 @@ export default function LocalSeoDashboardPage() {
     "geogrid" | "profile" | "posts" | "reviews" | "qa" | "decision_engine"
   >("geogrid");
 
+  // Editable connected email (any email can be set by user)
+  const [connectedEmail, setConnectedEmail] = useState(
+    user?.email || "business@gmail.com"
+  );
+  const [isEditingEmail, setIsEditingEmail] = useState(false);
+  const [emailInput, setEmailInput] = useState("");
+
   // Geogrid state
-  const [selectedKeyword, setSelectedKeyword] = useState(workspace.targetKeyword || "Local Services");
+  const [selectedKeyword, setSelectedKeyword] = useState(workspace?.targetKeyword || "Local Services");
   const [radius, setRadius] = useState(5);
   const [selectedNode, setSelectedNode] = useState<GridNodeData | null>(null);
 
   // Profile Optimization state (bound to real workspace & editable)
   const [automationMode, setAutomationMode] = useState<"Auto" | "Approval">("Auto");
   const [profileSaved, setProfileSaved] = useState(false);
-  const [businessName, setBusinessName] = useState(workspace.name || "Innovative Business");
+  const [businessName, setBusinessName] = useState(workspace?.name || "Innovative Business");
   const [primaryCategory, setPrimaryCategory] = useState(
-    workspace.primaryService && workspace.primaryService !== "Local Business"
+    workspace?.primaryService && workspace?.primaryService !== "Local Business"
       ? workspace.primaryService
       : "Software Company"
   );
   const [secondaryCategories, setSecondaryCategories] = useState(
     "Website Designer, Internet Marketing Service, Local SEO"
   );
-  const [locationCity, setLocationCity] = useState(workspace.location || "Lahore, Pakistan");
-  const [contactPhone, setContactPhone] = useState(workspace.nap?.phone || "+92 300 1234567");
+  const [locationCity, setLocationCity] = useState(workspace?.location || "Lahore, Pakistan");
+  const [contactPhone, setContactPhone] = useState(workspace?.nap?.phone || "+92 300 1234567");
   const [websiteUrl, setWebsiteUrl] = useState(
-    workspace.domain ? `https://${workspace.domain}` : "https://itibusinesssuite.online"
+    workspace?.domain ? `https://${workspace.domain}` : "https://itibusinesssuite.online"
   );
   const [googleMapsUrl, setGoogleMapsUrl] = useState(
-    `https://maps.google.com/?q=${encodeURIComponent((workspace.name || "Innovative") + " " + (workspace.location || "Lahore"))}`
+    `https://maps.google.com/?q=${encodeURIComponent((workspace?.name || "Innovative") + " " + (workspace?.location || "Lahore"))}`
   );
   const [placeId, setPlaceId] = useState("ChIJ8w41Y6a7QzkRe68sO_vM9xU");
   const [businessDescription, setBusinessDescription] = useState(
-    `${workspace.name || "Innovative"} delivers top-tier ${primaryCategory.toLowerCase()}, custom software engineering, and search optimization solutions. Serving verified residential & commercial clients with guaranteed satisfaction and 24/7 client support.`
+    `${workspace?.name || "Innovative"} delivers top-tier ${primaryCategory.toLowerCase()}, custom software engineering, and search optimization solutions. Serving verified residential & commercial clients with guaranteed satisfaction and 24/7 client support.`
   );
   const [operatingHours, setOperatingHours] = useState("Mon-Fri: 9:00 AM - 6:00 PM, Sat: 10:00 AM - 3:00 PM");
 
   // Load user saved profile from localStorage if present
   useEffect(() => {
     try {
-      const saved = localStorage.getItem(`omni_gmb_${workspace.id}`);
+      const saved = localStorage.getItem(`omni_gmb_${workspace?.id || "default"}`);
       if (saved) {
         const p = JSON.parse(saved);
+        if (p.connectedEmail) setConnectedEmail(p.connectedEmail);
+        else if (user?.email) setConnectedEmail(user.email);
         if (p.businessName) setBusinessName(p.businessName);
         if (p.primaryCategory) setPrimaryCategory(p.primaryCategory);
         if (p.secondaryCategories) setSecondaryCategories(p.secondaryCategories);
@@ -131,20 +140,21 @@ export default function LocalSeoDashboardPage() {
         if (p.businessDescription) setBusinessDescription(p.businessDescription);
         if (p.operatingHours) setOperatingHours(p.operatingHours);
       } else {
-        setBusinessName(workspace.name);
-        if (workspace.primaryService && workspace.primaryService !== "Local Business") {
+        if (user?.email) setConnectedEmail(user.email);
+        if (workspace?.name) setBusinessName(workspace.name);
+        if (workspace?.primaryService && workspace.primaryService !== "Local Business") {
           setPrimaryCategory(workspace.primaryService);
         }
-        if (workspace.location) setLocationCity(workspace.location);
-        if (workspace.nap?.phone) setContactPhone(workspace.nap.phone);
+        if (workspace?.location) setLocationCity(workspace.location);
+        if (workspace?.nap?.phone) setContactPhone(workspace.nap.phone);
         setBusinessDescription(
-          `${workspace.name} delivers industry-leading ${primaryCategory.toLowerCase()} and high-performance digital solutions across ${workspace.location}. We pride ourselves on transparent communication, verified results, and dedicated support.`
+          `${workspace?.name || "Innovative"} delivers industry-leading ${primaryCategory.toLowerCase()} and high-performance digital solutions across ${workspace?.location || "our service area"}. We pride ourselves on transparent communication, verified results, and dedicated support.`
         );
       }
     } catch {
       // ignore
     }
-  }, [workspace]);
+  }, [workspace, user]);
 
   // Content Posting state (Dynamically generated based on businessName & primaryCategory)
   const [posts, setPosts] = useState([
@@ -306,9 +316,9 @@ export default function LocalSeoDashboardPage() {
   // Mathematically computed distance-decay geo-grid nodes
   const gridNodes: GridNodeData[] = useMemo(() => {
     const isBranded =
-      selectedKeyword.toLowerCase().includes(businessName.toLowerCase()) ||
-      selectedKeyword.toLowerCase().includes("reviews");
-    const baseAuthority = workspace.categoryScores?.local || 68;
+      (selectedKeyword || "").toLowerCase().includes((businessName || "").toLowerCase()) ||
+      (selectedKeyword || "").toLowerCase().includes("reviews");
+    const baseAuthority = workspace?.categoryScores?.local || 68;
     const decayMultiplier = isBranded ? 0.05 : (100 - baseAuthority) / 25;
 
     const nodes: GridNodeData[] = [];
@@ -415,6 +425,7 @@ export default function LocalSeoDashboardPage() {
   // Save Profile Changes & Sync With Workspace
   const handleSaveProfile = () => {
     const profileData = {
+      connectedEmail,
       businessName,
       primaryCategory,
       secondaryCategories,
@@ -429,14 +440,14 @@ export default function LocalSeoDashboardPage() {
     };
 
     try {
-      localStorage.setItem(`omni_gmb_${workspace.id}`, JSON.stringify(profileData));
+      localStorage.setItem(`omni_gmb_${workspace?.id || "default"}`, JSON.stringify(profileData));
       updateWorkspace({
         name: businessName,
         primaryService: primaryCategory,
         location: locationCity,
         targetKeyword: selectedKeyword,
         nap: {
-          ...workspace.nap,
+          ...workspace?.nap,
           businessName: businessName,
           address: locationCity,
           phone: contactPhone,
@@ -459,8 +470,6 @@ export default function LocalSeoDashboardPage() {
       console.error("Failed to save profile:", e);
     }
   };
-
-  const connectedEmail = user?.email || "haiderusama707@gmail.com";
 
   return (
     <div className="space-y-8">
@@ -502,10 +511,59 @@ export default function LocalSeoDashboardPage() {
               </span>
             </div>
 
-            <p className="text-xs text-slate-300 flex flex-wrap items-center gap-x-3 gap-y-1">
-              <span>
-                Account: <strong className="text-teal-300">{connectedEmail}</strong>
-              </span>
+            <div className="text-xs text-slate-300 flex flex-wrap items-center gap-x-3 gap-y-1">
+              <div className="flex items-center gap-1.5">
+                <span>Account:</span>
+                {isEditingEmail ? (
+                  <div className="inline-flex items-center gap-1">
+                    <input
+                      type="email"
+                      value={emailInput}
+                      onChange={(e) => setEmailInput(e.target.value)}
+                      placeholder="Enter any Gmail/email..."
+                      className="px-2 py-0.5 rounded bg-slate-800 text-teal-300 border border-teal-500/50 text-xs focus:outline-none"
+                    />
+                    <button
+                      onClick={() => {
+                        if (emailInput.trim()) {
+                          setConnectedEmail(emailInput.trim());
+                          try {
+                            const saved = localStorage.getItem(`omni_gmb_${workspace?.id || "default"}`);
+                            const parsed = saved ? JSON.parse(saved) : {};
+                            parsed.connectedEmail = emailInput.trim();
+                            localStorage.setItem(`omni_gmb_${workspace?.id || "default"}`, JSON.stringify(parsed));
+                          } catch {}
+                          setIsEditingEmail(false);
+                        }
+                      }}
+                      className="px-2 py-0.5 rounded bg-teal-600 hover:bg-teal-500 text-white font-bold text-[10px]"
+                    >
+                      Save
+                    </button>
+                    <button
+                      onClick={() => setIsEditingEmail(false)}
+                      className="px-1.5 py-0.5 rounded bg-slate-700 text-slate-300 text-[10px]"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ) : (
+                  <div className="inline-flex items-center gap-1.5">
+                    <strong className="text-teal-300">{connectedEmail}</strong>
+                    <button
+                      onClick={() => {
+                        setEmailInput(connectedEmail);
+                        setIsEditingEmail(true);
+                      }}
+                      title="Change connected Google / GMB email"
+                      className="px-1.5 py-0.5 rounded bg-white/10 hover:bg-white/20 text-teal-300 transition-all text-[10px] flex items-center gap-1"
+                    >
+                      <Edit3 className="w-2.5 h-2.5" />
+                      <span>Change</span>
+                    </button>
+                  </div>
+                )}
+              </div>
               <span>•</span>
               <span>
                 Category: <strong className="text-teal-300">{primaryCategory}</strong>
@@ -514,7 +572,7 @@ export default function LocalSeoDashboardPage() {
               <span>
                 Location: <strong className="text-teal-300">{locationCity}</strong>
               </span>
-            </p>
+            </div>
           </div>
         </div>
 
@@ -864,6 +922,27 @@ export default function LocalSeoDashboardPage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              {/* Connected Google Account / GMB Email (Any email can be linked/changed) */}
+              <div className="space-y-1 md:col-span-2 p-3.5 rounded-2xl bg-teal-50/70 border border-teal-200">
+                <div className="flex items-center justify-between">
+                  <label className="font-bold text-teal-950 flex items-center gap-1.5">
+                    <Mail className="w-3.5 h-3.5 text-teal-700" />
+                    <span>Connected Google Account / GMB Email Address</span>
+                  </label>
+                  <span className="text-[10px] font-bold text-teal-700">Any email can be linked</span>
+                </div>
+                <input
+                  type="email"
+                  value={connectedEmail}
+                  onChange={(e) => setConnectedEmail(e.target.value)}
+                  placeholder="e.g. client@gmail.com, agency@company.com, etc."
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-teal-200 text-slate-900 font-bold text-xs focus:ring-2 focus:ring-teal-500 transition-all mt-1"
+                />
+                <p className="text-[11px] text-slate-500 mt-1">
+                  Aap yahan kisi bhi client ya business ki email enter kar sakte hain. Ye email pure Local SEO hub ke sath sync ho jayegi.
+                </p>
+              </div>
+
               {/* Business Name */}
               <div className="space-y-1">
                 <label className="font-bold text-slate-700 flex items-center gap-1.5">
