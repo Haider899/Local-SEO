@@ -53,6 +53,7 @@ interface WorkspaceContextType {
   workspace: WorkspaceData;
   saveAuditAsActiveWorkspace: (audit: AuditResult) => void;
   resetToDemoWorkspace: () => void;
+  updateWorkspace: (updates: Partial<WorkspaceData>) => void;
   hasCustomAudit: boolean;
 }
 
@@ -446,6 +447,21 @@ export function WorkspaceProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     try {
+      // 0. Check for user-saved business overrides
+      const savedOverride = localStorage.getItem("omni_active_workspace_override");
+      if (savedOverride) {
+        try {
+          const parsed = JSON.parse(savedOverride);
+          if (parsed && parsed.name) {
+            setWorkspace(parsed);
+            setHasCustomAudit(true);
+            return;
+          }
+        } catch {
+          // ignore
+        }
+      }
+
       // 1. If user is logged in, prioritize user's own workspace
       if (user) {
         setWorkspace(
@@ -478,6 +494,25 @@ export function WorkspaceProvider({ children }: { children: React.ReactNode }) {
     }
   }, [user]);
 
+  const updateWorkspace = (updates: Partial<WorkspaceData>) => {
+    setWorkspace((prev) => {
+      const updated: WorkspaceData = {
+        ...prev,
+        ...updates,
+        nap: {
+          ...prev.nap,
+          ...(updates.nap || {}),
+        },
+      };
+      try {
+        localStorage.setItem("omni_active_workspace_override", JSON.stringify(updated));
+      } catch (e) {
+        console.error("Failed to persist workspace update", e);
+      }
+      return updated;
+    });
+  };
+
   const saveAuditAsActiveWorkspace = (audit: AuditResult) => {
     try {
       localStorage.setItem("omni_active_audit", JSON.stringify(audit));
@@ -491,6 +526,7 @@ export function WorkspaceProvider({ children }: { children: React.ReactNode }) {
   const resetToDemoWorkspace = () => {
     try {
       localStorage.removeItem("omni_active_audit");
+      localStorage.removeItem("omni_active_workspace_override");
       setWorkspace(DEFAULT_DEMO_WORKSPACE);
       setHasCustomAudit(false);
     } catch (e) {
@@ -504,6 +540,7 @@ export function WorkspaceProvider({ children }: { children: React.ReactNode }) {
         workspace,
         saveAuditAsActiveWorkspace,
         resetToDemoWorkspace,
+        updateWorkspace,
         hasCustomAudit,
       }}
     >
