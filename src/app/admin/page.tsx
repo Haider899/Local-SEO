@@ -38,6 +38,7 @@ import {
   Globe,
   Radio,
   Eye,
+  EyeOff,
   Plus,
   Download,
   Play,
@@ -59,6 +60,9 @@ export default function AdminSuperPortalPage() {
   const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [passcode, setPasscode] = useState("");
+  const [showAdminPasscode, setShowAdminPasscode] = useState(false);
+  const [showResetPassword, setShowResetPassword] = useState(false);
+  const [showNewClientPassword, setShowNewClientPassword] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [adminRole, setAdminRole] = useState<"Super Admin" | "Sales" | "Support">("Super Admin");
 
@@ -556,13 +560,23 @@ export default function AdminSuperPortalPage() {
           )}
 
           <form onSubmit={handleAdminLogin} className="space-y-4">
-            <input
-              type="password"
-              value={passcode}
-              onChange={(e) => setPasscode(e.target.value)}
-              placeholder="Enter passcode (e.g. admin2026)"
-              className="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-slate-900 placeholder-slate-400 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-teal-600 shadow-2xs"
-            />
+            <div className="relative">
+              <input
+                type={showAdminPasscode ? "text" : "password"}
+                value={passcode}
+                onChange={(e) => setPasscode(e.target.value)}
+                placeholder="Enter passcode (e.g. admin2026)"
+                className="w-full pl-4 pr-10 py-3 rounded-xl bg-white border border-slate-200 text-slate-900 placeholder-slate-400 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-teal-600 shadow-2xs"
+              />
+              <button
+                type="button"
+                onClick={() => setShowAdminPasscode(!showAdminPasscode)}
+                className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 focus:outline-none"
+                title={showAdminPasscode ? "Hide passcode" : "Show passcode"}
+              >
+                {showAdminPasscode ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              </button>
+            </div>
             <button
               type="submit"
               className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white font-bold text-sm shadow-md shadow-teal-600/20 transition-all"
@@ -1365,14 +1379,24 @@ export default function AdminSuperPortalPage() {
             <p className="text-xs text-slate-500">
               Set a temporary password for <strong className="text-slate-900">{resetPassModalClient.ownerEmail}</strong> ({resetPassModalClient.businessName}).
             </p>
-            <input
-              type="text"
-              required
-              value={newPasswordInput}
-              onChange={(e) => setNewPasswordInput(e.target.value)}
-              placeholder="e.g. TempPass2026!"
-              className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-600 font-mono shadow-2xs"
-            />
+            <div className="relative">
+              <input
+                type={showResetPassword ? "text" : "password"}
+                required
+                value={newPasswordInput}
+                onChange={(e) => setNewPasswordInput(e.target.value)}
+                placeholder="e.g. TempPass2026!"
+                className="w-full pl-3.5 pr-10 py-2.5 rounded-xl bg-white border border-slate-200 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-600 font-mono shadow-2xs"
+              />
+              <button
+                type="button"
+                onClick={() => setShowResetPassword(!showResetPassword)}
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 focus:outline-none"
+                title={showResetPassword ? "Hide password" : "Show password"}
+              >
+                {showResetPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              </button>
+            </div>
             <div className="flex items-center justify-end gap-3 pt-2">
               <button
                 type="button"
@@ -1632,15 +1656,25 @@ export default function AdminSuperPortalPage() {
                   <label className="block text-[11px] font-bold text-slate-700 uppercase mb-1">
                     Initial Password
                   </label>
-                  <input
-                    type="text"
-                    value={newClientForm.password}
-                    onChange={(e) =>
-                      setNewClientForm({ ...newClientForm, password: e.target.value })
-                    }
-                    placeholder="Default: ClientPass2026!"
-                    className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 focus:bg-white focus:outline-none focus:ring-1 focus:ring-teal-600"
-                  />
+                  <div className="relative">
+                    <input
+                      type={showNewClientPassword ? "text" : "password"}
+                      value={newClientForm.password}
+                      onChange={(e) =>
+                        setNewClientForm({ ...newClientForm, password: e.target.value })
+                      }
+                      placeholder="Default: ClientPass2026!"
+                      className="w-full pl-3.5 pr-10 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 focus:bg-white focus:outline-none focus:ring-1 focus:ring-teal-600"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowNewClientPassword(!showNewClientPassword)}
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 focus:outline-none"
+                      title={showNewClientPassword ? "Hide password" : "Show password"}
+                    >
+                      {showNewClientPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
+                  </div>
                 </div>
               </div>
 
