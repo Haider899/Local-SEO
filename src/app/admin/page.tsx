@@ -71,6 +71,7 @@ export default function AdminSuperPortalPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterPlan, setFilterPlan] = useState<string>("all");
   const [filterLeadStatus, setFilterLeadStatus] = useState<string>("all");
+  const [filterLeadType, setFilterLeadType] = useState<string>("all");
 
   // Live Server Data
   const [clients, setClients] = useState<ClientRecord[]>([]);
@@ -86,6 +87,22 @@ export default function AdminSuperPortalPage() {
   const [newPasswordInput, setNewPasswordInput] = useState("");
   const [editingPackage, setEditingPackage] = useState<PackageRecord | null>(null);
   const [newPackageFeature, setNewPackageFeature] = useState("");
+
+  // Manual Client Creation Modal
+  const [isAddClientOpen, setIsAddClientOpen] = useState(false);
+  const [newClientForm, setNewClientForm] = useState({
+    businessName: "",
+    domain: "",
+    ownerName: "",
+    ownerEmail: "",
+    phone: "",
+    plan: "Package 2 ($50/mo)",
+    mode: "Auto",
+    password: "",
+  });
+
+  // Detailed Lead View Modal
+  const [viewLeadModal, setViewLeadModal] = useState<LeadRecord | null>(null);
 
   useEffect(() => {
     try {
@@ -315,6 +332,116 @@ export default function AdminSuperPortalPage() {
     }
   };
 
+  // Manual Client Creation
+  const handleCreateClient = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newClientForm.businessName.trim() || !newClientForm.ownerEmail.trim()) {
+      alert("Business Name and Owner Email are required.");
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/clients", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...newClientForm,
+          businessName: newClientForm.businessName.trim(),
+          domain: newClientForm.domain.trim() || `${newClientForm.businessName.toLowerCase().replace(/[^a-z0-9]/g, "")}.com`,
+          ownerEmail: newClientForm.ownerEmail.trim(),
+          ownerName: newClientForm.ownerName.trim() || newClientForm.ownerEmail.split("@")[0],
+        }),
+      });
+      const data = await res.json();
+      if (data.success && data.client) {
+        setClients((prev) => [data.client, ...prev]);
+        triggerNotice(`Client "${data.client.businessName}" created successfully!`);
+        setIsAddClientOpen(false);
+        setNewClientForm({
+          businessName: "",
+          domain: "",
+          ownerName: "",
+          ownerEmail: "",
+          phone: "",
+          plan: "Package 2 ($50/mo)",
+          mode: "Auto",
+          password: "",
+        });
+      } else {
+        alert(data.error || "Failed to create client.");
+      }
+    } catch (err: any) {
+      console.error("Create client error:", err);
+      alert(err.message || "Failed to create client.");
+    }
+  };
+
+  // Client Deletion
+  const handleDeleteClient = async (client: ClientRecord) => {
+    if (!window.confirm(`Are you sure you want to permanently delete "${client.businessName}"? This action cannot be undone.`)) {
+      return;
+    }
+
+    try {
+      const res = await fetch(
+        `/api/clients?id=${client.id}&adminEmail=${encodeURIComponent(
+          `${adminRole.toLowerCase().replace(" ", "")}@itibusinesssuite.online`
+        )}`,
+        { method: "DELETE" }
+      );
+      const data = await res.json();
+      if (data.success) {
+        setClients((prev) => prev.filter((c) => c.id !== client.id));
+        triggerNotice(`Client "${client.businessName}" deleted.`);
+      } else {
+        alert(data.error || "Failed to delete client.");
+      }
+    } catch (err: any) {
+      console.error("Delete client error:", err);
+      alert(err.message || "Failed to delete client.");
+    }
+  };
+
+  // Lead Deletion
+  const handleDeleteLead = async (lead: LeadRecord) => {
+    if (!window.confirm(`Delete lead inquiry from "${lead.name}"?`)) {
+      return;
+    }
+
+    try {
+      const res = await fetch(`/api/leads?id=${lead.id}`, { method: "DELETE" });
+      const data = await res.json();
+      if (data.success) {
+        setLeads((prev) => prev.filter((l) => l.id !== lead.id));
+        if (viewLeadModal?.id === lead.id) setViewLeadModal(null);
+        triggerNotice(`Deleted lead from "${lead.name}".`);
+      } else {
+        alert(data.error || "Failed to delete lead.");
+      }
+    } catch (err: any) {
+      console.error("Delete lead error:", err);
+      alert(err.message || "Failed to delete lead.");
+    }
+  };
+
+  // Lead Conversion to Client
+  const handleConvertLeadToClient = (lead: LeadRecord) => {
+    const rawDomain = (lead.websiteUrl || "").replace(/^https?:\/\//i, "").replace(/\/.*$/, "");
+    setNewClientForm({
+      businessName: lead.businessName || lead.name,
+      domain: rawDomain || `${(lead.businessName || lead.name).toLowerCase().replace(/[^a-z0-9]/g, "")}.com`,
+      ownerName: lead.name,
+      ownerEmail: lead.email,
+      phone: lead.phone || "",
+      plan: "Package 2 ($50/mo)",
+      mode: "Auto",
+      password: "ClientPass2026!",
+    });
+    setViewLeadModal(null);
+    setIsAddClientOpen(true);
+    setActiveSection("clients");
+  };
+
   // CSV Export for Leads
   const exportLeadsToCsv = () => {
     const headers = ["ID", "Type", "Name", "Email", "Phone", "Business", "Service", "Budget", "Health Score", "Status", "Date"];
@@ -394,10 +521,13 @@ export default function AdminSuperPortalPage() {
   const filteredLeads = leads.filter((l) => {
     const matchQuery =
       l.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (l.name && l.name.toLowerCase().includes(searchQuery.toLowerCase())) ||
       (l.businessName && l.businessName.toLowerCase().includes(searchQuery.toLowerCase())) ||
-      (l.service && l.service.toLowerCase().includes(searchQuery.toLowerCase()));
+      (l.service && l.service.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (l.message && l.message.toLowerCase().includes(searchQuery.toLowerCase()));
     const matchStatus = filterLeadStatus === "all" || l.status === filterLeadStatus;
-    return matchQuery && matchStatus;
+    const matchType = filterLeadType === "all" || l.type === filterLeadType;
+    return matchQuery && matchStatus && matchType;
   });
 
   // Locked Gate
@@ -704,6 +834,13 @@ export default function AdminSuperPortalPage() {
                 </div>
 
                 <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => setIsAddClientOpen(true)}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-teal-700 to-teal-800 hover:from-teal-800 hover:to-teal-900 text-white text-xs font-bold shadow-sm shadow-teal-700/20 transition-all active:scale-95"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                    <span>Add Client Manually</span>
+                  </button>
                   <Button
                     onClick={exportClientsToCsv}
                     variant="secondary"
@@ -847,12 +984,39 @@ export default function AdminSuperPortalPage() {
                               >
                                 <Eye className="w-4 h-4" />
                               </button>
+
+                              {/* Delete Client */}
+                              <button
+                                onClick={() => handleDeleteClient(client)}
+                                className="p-1.5 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 border border-rose-200 transition-colors"
+                                title="Delete client record"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </button>
                             </div>
                           </td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
+
+                  {filteredClients.length === 0 && (
+                    <div className="p-12 text-center space-y-3 bg-white">
+                      <div className="w-12 h-12 rounded-2xl bg-teal-50 border border-teal-200 text-teal-700 flex items-center justify-center mx-auto">
+                        <Building className="w-6 h-6" />
+                      </div>
+                      <h3 className="text-sm font-bold text-slate-900">No client accounts yet</h3>
+                      <p className="text-xs text-slate-500 max-w-sm mx-auto">
+                        Live clients who register via the pricing page or whom you onboard manually will appear here with full account controls.
+                      </p>
+                      <button
+                        onClick={() => setIsAddClientOpen(true)}
+                        className="mt-2 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-teal-700 to-teal-800 hover:from-teal-800 hover:to-teal-900 text-white text-xs font-bold transition-all shadow-md shadow-teal-700/20 active:scale-95"
+                      >
+                        <Plus className="w-3.5 h-3.5" /> Add First Client
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -909,6 +1073,17 @@ export default function AdminSuperPortalPage() {
                   <option value="Contacted">Contacted</option>
                   <option value="Qualified">Qualified</option>
                   <option value="Converted">Converted</option>
+                </select>
+
+                <select
+                  value={filterLeadType}
+                  onChange={(e) => setFilterLeadType(e.target.value)}
+                  className="px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs text-slate-700 focus:outline-none shadow-2xs font-medium"
+                >
+                  <option value="all">All Inquiries</option>
+                  <option value="service_quote">Custom Software Quotes</option>
+                  <option value="free_audit">Free SEO Audits</option>
+                  <option value="contact">Contact Messages</option>
                 </select>
               </div>
 
@@ -989,17 +1164,48 @@ export default function AdminSuperPortalPage() {
                           </td>
 
                           <td className="py-3.5 px-4 text-right">
-                            <a
-                              href={`mailto:${lead.email}?subject=Regarding your ${lead.service || "Local SEO"} inquiry`}
-                              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-teal-50 text-teal-700 hover:bg-teal-100 border border-teal-200 text-[11px] font-bold transition-colors"
-                            >
-                              <Mail className="w-3 h-3" /> Contact
-                            </a>
+                            <div className="flex items-center justify-end gap-1.5">
+                              <button
+                                onClick={() => setViewLeadModal(lead)}
+                                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-teal-50 text-teal-700 hover:bg-teal-100 border border-teal-200 text-[11px] font-bold transition-colors"
+                                title="View full inquiry details"
+                              >
+                                <Eye className="w-3 h-3" /> View
+                              </button>
+
+                              <a
+                                href={`mailto:${lead.email}?subject=Regarding your ${lead.service || "Local SEO"} inquiry`}
+                                className="p-1.5 rounded-lg bg-slate-100 text-slate-600 hover:text-slate-900 hover:bg-slate-200 border border-slate-200 text-[11px] font-bold transition-colors"
+                                title="Send email"
+                              >
+                                <Mail className="w-3.5 h-3.5" />
+                              </a>
+
+                              <button
+                                onClick={() => handleDeleteLead(lead)}
+                                className="p-1.5 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 border border-rose-200 transition-colors"
+                                title="Delete lead"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
                           </td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
+
+                  {filteredLeads.length === 0 && (
+                    <div className="p-12 text-center space-y-3 bg-white">
+                      <div className="w-12 h-12 rounded-2xl bg-teal-50 border border-teal-200 text-teal-700 flex items-center justify-center mx-auto">
+                        <Users className="w-6 h-6" />
+                      </div>
+                      <h3 className="text-sm font-bold text-slate-900">No leads in the pipeline yet</h3>
+                      <p className="text-xs text-slate-500 max-w-sm mx-auto">
+                        Inquiries submitted from Contact Us, Hire Us, Service Quote requests, and Free SEO Audits will arrive here in real time.
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -1308,6 +1514,336 @@ export default function AdminSuperPortalPage() {
               >
                 Save Package to Database
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Manual Client Creation Modal */}
+      {isAddClientOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm animate-in fade-in">
+          <div className="w-full max-w-lg p-6 sm:p-8 rounded-3xl bg-white border border-slate-200/90 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-teal-50 border border-teal-200 flex items-center justify-center text-teal-700">
+                  <Building className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-slate-900 font-heading">
+                    Add New Client Account
+                  </h3>
+                  <p className="text-xs text-slate-500">
+                    Onboard a new client directly into the SaaS platform
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setIsAddClientOpen(false)}
+                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <form onSubmit={handleCreateClient} className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-700 uppercase mb-1">
+                    Business Name *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={newClientForm.businessName}
+                    onChange={(e) =>
+                      setNewClientForm({ ...newClientForm, businessName: e.target.value })
+                    }
+                    placeholder="e.g. Apex Legal Services"
+                    className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 focus:bg-white focus:outline-none focus:ring-1 focus:ring-teal-600"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-700 uppercase mb-1">
+                    Website Domain
+                  </label>
+                  <input
+                    type="text"
+                    value={newClientForm.domain}
+                    onChange={(e) =>
+                      setNewClientForm({ ...newClientForm, domain: e.target.value })
+                    }
+                    placeholder="e.g. apexlegal.com"
+                    className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 focus:bg-white focus:outline-none focus:ring-1 focus:ring-teal-600"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-700 uppercase mb-1">
+                    Owner Full Name
+                  </label>
+                  <input
+                    type="text"
+                    value={newClientForm.ownerName}
+                    onChange={(e) =>
+                      setNewClientForm({ ...newClientForm, ownerName: e.target.value })
+                    }
+                    placeholder="e.g. Sarah Jenkins"
+                    className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 focus:bg-white focus:outline-none focus:ring-1 focus:ring-teal-600"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-700 uppercase mb-1">
+                    Owner Email *
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    value={newClientForm.ownerEmail}
+                    onChange={(e) =>
+                      setNewClientForm({ ...newClientForm, ownerEmail: e.target.value })
+                    }
+                    placeholder="client@business.com"
+                    className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 focus:bg-white focus:outline-none focus:ring-1 focus:ring-teal-600"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-700 uppercase mb-1">
+                    Phone (Optional)
+                  </label>
+                  <input
+                    type="text"
+                    value={newClientForm.phone}
+                    onChange={(e) =>
+                      setNewClientForm({ ...newClientForm, phone: e.target.value })
+                    }
+                    placeholder="+1 (555) 000-0000"
+                    className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 focus:bg-white focus:outline-none focus:ring-1 focus:ring-teal-600"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-700 uppercase mb-1">
+                    Initial Password
+                  </label>
+                  <input
+                    type="text"
+                    value={newClientForm.password}
+                    onChange={(e) =>
+                      setNewClientForm({ ...newClientForm, password: e.target.value })
+                    }
+                    placeholder="Default: ClientPass2026!"
+                    className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 focus:bg-white focus:outline-none focus:ring-1 focus:ring-teal-600"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-700 uppercase mb-1">
+                    Subscription Plan
+                  </label>
+                  <select
+                    value={newClientForm.plan}
+                    onChange={(e) =>
+                      setNewClientForm({ ...newClientForm, plan: e.target.value as any })
+                    }
+                    className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 focus:bg-white focus:outline-none"
+                  >
+                    <option value="Package 1 ($20/mo)">Package 1 — GMB SEO ($20/mo)</option>
+                    <option value="Package 2 ($50/mo)">Package 2 — GMB + Website SEO ($50/mo)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-700 uppercase mb-1">
+                    Automation Mode
+                  </label>
+                  <select
+                    value={newClientForm.mode}
+                    onChange={(e) =>
+                      setNewClientForm({ ...newClientForm, mode: e.target.value as any })
+                    }
+                    className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 focus:bg-white focus:outline-none"
+                  >
+                    <option value="Auto">Auto Mode (Full Automation)</option>
+                    <option value="Approval">Approval Mode (Requires Confirmation)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
+                <button
+                  type="button"
+                  onClick={() => setIsAddClientOpen(false)}
+                  className="px-4 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-semibold shadow-2xs transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2 rounded-xl bg-gradient-to-r from-teal-700 to-teal-800 hover:from-teal-800 hover:to-teal-900 text-white font-bold text-xs shadow-md shadow-teal-700/20 transition-all active:scale-95"
+                >
+                  Create Client Account
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* View Lead Details & Convert Modal */}
+      {viewLeadModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm animate-in fade-in">
+          <div className="w-full max-w-lg p-6 sm:p-8 rounded-3xl bg-white border border-slate-200/90 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-teal-50 border border-teal-200 flex items-center justify-center text-teal-700">
+                  <Users className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-slate-900 font-heading">
+                    {viewLeadModal.name}
+                  </h3>
+                  <div className="flex items-center gap-2 mt-0.5">
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-teal-50 text-teal-800 border border-teal-200 uppercase">
+                      {viewLeadModal.type === "free_audit"
+                        ? "Free SEO Audit Lead"
+                        : viewLeadModal.type === "contact"
+                        ? "Contact Message"
+                        : "Software House Quote"}
+                    </span>
+                    <span className="text-[11px] text-slate-400">
+                      {new Date(viewLeadModal.createdAt).toLocaleDateString()}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <button
+                onClick={() => setViewLeadModal(null)}
+                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div className="space-y-4 text-xs">
+              <div className="grid grid-cols-2 gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-200/80">
+                <div>
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Email</span>
+                  <p className="font-bold text-slate-900 mt-0.5 truncate">{viewLeadModal.email}</p>
+                </div>
+                <div>
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Phone</span>
+                  <p className="font-bold text-slate-900 mt-0.5">{viewLeadModal.phone || "Not provided"}</p>
+                </div>
+                <div>
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Company</span>
+                  <p className="font-bold text-slate-900 mt-0.5">{viewLeadModal.businessName || "Not provided"}</p>
+                </div>
+                <div>
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Website</span>
+                  <p className="font-bold text-teal-700 mt-0.5 truncate">
+                    {viewLeadModal.websiteUrl ? (
+                      <a
+                        href={viewLeadModal.websiteUrl.startsWith("http") ? viewLeadModal.websiteUrl : `https://${viewLeadModal.websiteUrl}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="underline hover:text-teal-900"
+                      >
+                        {viewLeadModal.websiteUrl}
+                      </a>
+                    ) : (
+                      "Not provided"
+                    )}
+                  </p>
+                </div>
+              </div>
+
+              {(viewLeadModal.service || viewLeadModal.budget) && (
+                <div className="grid grid-cols-2 gap-3 p-4 rounded-2xl bg-teal-50/40 border border-teal-100">
+                  <div>
+                    <span className="text-[10px] font-bold text-teal-800 uppercase tracking-wider">Service Requested</span>
+                    <p className="font-bold text-slate-900 mt-0.5">{viewLeadModal.service || "General Inquiry"}</p>
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-bold text-teal-800 uppercase tracking-wider">Budget Scope</span>
+                    <p className="font-bold text-slate-900 mt-0.5">{viewLeadModal.budget || "Flexible / Not Stated"}</p>
+                  </div>
+                </div>
+              )}
+
+              {viewLeadModal.message && (
+                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1">
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Project Scope / Message</span>
+                  <p className="text-slate-700 leading-relaxed whitespace-pre-wrap">{viewLeadModal.message}</p>
+                </div>
+              )}
+
+              {viewLeadModal.healthScore !== undefined && (
+                <div className="p-3 rounded-2xl bg-teal-50 border border-teal-200 flex items-center justify-between">
+                  <span className="font-bold text-teal-900">Baseline Audit Health Score:</span>
+                  <span className="text-base font-black text-teal-700">{viewLeadModal.healthScore}/100</span>
+                </div>
+              )}
+
+              <div className="flex items-center justify-between pt-2">
+                <span className="font-bold text-slate-700">Lead Status:</span>
+                <select
+                  value={viewLeadModal.status}
+                  onChange={(e) => {
+                    const newStatus = e.target.value as any;
+                    handleUpdateLeadStatus(viewLeadModal.id, newStatus);
+                    setViewLeadModal({ ...viewLeadModal, status: newStatus });
+                  }}
+                  className="px-3 py-1.5 rounded-xl bg-white border border-slate-200 font-bold text-xs text-slate-900"
+                >
+                  <option value="New">New</option>
+                  <option value="Contacted">Contacted</option>
+                  <option value="Qualified">Qualified</option>
+                  <option value="Converted">Converted</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-between gap-2 pt-4 border-t border-slate-100">
+              <button
+                type="button"
+                onClick={() => handleDeleteLead(viewLeadModal)}
+                className="px-3 py-2 rounded-xl text-rose-600 hover:bg-rose-50 text-xs font-semibold transition-colors flex items-center gap-1"
+              >
+                <Trash2 className="w-3.5 h-3.5" /> Delete
+              </button>
+
+              <div className="flex items-center gap-2">
+                {viewLeadModal.phone && (
+                  <a
+                    href={`tel:${viewLeadModal.phone}`}
+                    className="px-3 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-xs font-bold text-slate-700 flex items-center gap-1.5 transition-colors"
+                  >
+                    <Phone className="w-3.5 h-3.5 text-slate-400" /> Call
+                  </a>
+                )}
+                <a
+                  href={`mailto:${viewLeadModal.email}?subject=Regarding your inquiry at Innovative`}
+                  className="px-3 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-xs font-bold text-slate-700 flex items-center gap-1.5 transition-colors"
+                >
+                  <Mail className="w-3.5 h-3.5 text-slate-400" /> Email
+                </a>
+                <button
+                  type="button"
+                  onClick={() => handleConvertLeadToClient(viewLeadModal)}
+                  className="px-4 py-2 rounded-xl bg-gradient-to-r from-teal-700 to-teal-800 hover:from-teal-800 hover:to-teal-900 text-white font-bold text-xs shadow-md shadow-teal-700/20 transition-all active:scale-95 flex items-center gap-1.5"
+                >
+                  <UserCheck className="w-3.5 h-3.5" /> Convert to Client
+                </button>
+              </div>
             </div>
           </div>
         </div>

@@ -12,3 +12,4 @@ if (typeof globalThis.File === "undefined" || typeof globalThis.Blob === "undefi
     // ignore
   }
 }
+

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getLeads, saveLead, updateLeadStatus } from "@/lib/data/repository";
+import { getLeads, saveLead, updateLeadStatus, deleteLead } from "@/lib/data/repository";
 
 export const dynamic = "force-dynamic";
 
@@ -70,6 +70,32 @@ export async function PATCH(req: NextRequest) {
   } catch (error: any) {
     return NextResponse.json(
       { success: false, error: error.message || "Failed to update lead" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+
+    if (!id) {
+      return NextResponse.json(
+        { success: false, error: "Lead ID is required." },
+        { status: 400 }
+      );
+    }
+
+    const deleted = deleteLead(id);
+    if (!deleted) {
+      return NextResponse.json({ success: false, error: "Lead not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({ success: true });
+  } catch (error: any) {
+    return NextResponse.json(
+      { success: false, error: error.message || "Failed to delete lead" },
       { status: 500 }
     );
   }

@@ -3,6 +3,7 @@ import {
   getClients,
   saveClient,
   updateClient,
+  deleteClient,
   logAdminAction,
   getAdminLogs,
 } from "@/lib/data/repository";
@@ -150,6 +151,39 @@ export async function PATCH(req: NextRequest) {
   } catch (error: any) {
     return NextResponse.json(
       { success: false, error: error.message || "Failed to update client" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+    const adminEmail = searchParams.get("adminEmail") || "admin@itibusinesssuite.online";
+
+    if (!id) {
+      return NextResponse.json(
+        { success: false, error: "Client ID is required." },
+        { status: 400 }
+      );
+    }
+
+    const clients = getClients();
+    const existing = clients.find((c) => c.id === id);
+    const targetName = existing ? existing.businessName : id;
+
+    const deleted = deleteClient(id);
+    if (!deleted) {
+      return NextResponse.json({ success: false, error: "Client not found" }, { status: 404 });
+    }
+
+    logAdminAction(adminEmail, "Delete Client", targetName, `Permanently removed client ${targetName}`);
+
+    return NextResponse.json({ success: true });
+  } catch (error: any) {
+    return NextResponse.json(
+      { success: false, error: error.message || "Failed to delete client" },
       { status: 500 }
     );
   }

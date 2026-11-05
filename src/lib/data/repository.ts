@@ -138,110 +138,17 @@ const DEFAULT_PACKAGES: PackageRecord[] = [
   },
 ];
 
-const DEFAULT_CLIENTS: ClientRecord[] = [
-  {
-    id: "biz_101",
-    businessName: "Apex Dynamics",
-    domain: "apexdynamics.com",
-    ownerName: "Sarah Jenkins",
-    ownerEmail: "client@apexdynamics.com",
-    phone: "+1 (512) 555-0192",
-    plan: "Package 2 ($50/mo)",
-    mrr: 50,
-    status: "Active",
-    automationPaused: false,
-    mode: "Auto",
-    gmbConnected: true,
-    joinedDate: "Live Client",
-    lastLoginDate: "Just now",
-    healthScore: 78,
-    lastActionTaken: "Published weekly service update & responded to 5-star review",
-  },
-  {
-    id: "biz_102",
-    businessName: "Metro Health Group",
-    domain: "metrohealthgroup.com",
-    ownerName: "Dr. Marcus Vance",
-    ownerEmail: "contact@metrohealthgroup.com",
-    phone: "+1 (415) 555-8391",
-    plan: "Package 1 ($20/mo)",
-    mrr: 20,
-    status: "Active",
-    automationPaused: false,
-    mode: "Approval",
-    gmbConnected: true,
-    joinedDate: "Aug 12, 2026",
-    lastLoginDate: "Yesterday",
-    healthScore: 84,
-    lastActionTaken: "Proposed holiday promotion post for doctor review",
-  },
-  {
-    id: "biz_103",
-    businessName: "Modern Home Plumbing",
-    domain: "modernhomeplumbing.com",
-    ownerName: "David Miller",
-    ownerEmail: "service@modernhomeplumbing.com",
-    phone: "+1 (312) 555-4920",
-    plan: "Package 2 ($50/mo)",
-    mrr: 50,
-    status: "Active",
-    automationPaused: false,
-    mode: "Auto",
-    gmbConnected: true,
-    joinedDate: "Aug 22, 2026",
-    lastLoginDate: "3 days ago",
-    healthScore: 82,
-    lastActionTaken: "Weekly 5x5 Geo-Grid scan refreshed across 5 mi radius",
-  },
-];
+const DEFAULT_CLIENTS: ClientRecord[] = [];
 
-const DEFAULT_LEADS: LeadRecord[] = [
-  {
-    id: "lead_01",
-    type: "free_audit",
-    name: "Austin Solar Team",
-    email: "contact@austinsolar.io",
-    businessName: "Austin Solar Dynamics",
-    websiteUrl: "https://austinsolar.io",
-    healthScore: 61,
-    status: "New",
-    createdAt: "Today (Free SEO Checker)",
-  },
-  {
-    id: "lead_02",
-    type: "service_quote",
-    name: "Sarah Jenkins",
-    email: "sarah@apexrealty.com",
-    phone: "+1 (512) 555-3920",
-    businessName: "Apex Realty Group",
-    service: "Local SEO (GMB + Website)",
-    budget: "$1k - $5k / mo",
-    message: "Interested in ranking 3 local office locations in the Google 3-pack.",
-    status: "Qualified",
-    createdAt: "Yesterday (Quote Form)",
-  },
-  {
-    id: "lead_03",
-    type: "service_quote",
-    name: "Tariq Malik",
-    email: "tariq@fastech.io",
-    phone: "+971 50 123 4567",
-    businessName: "FasTech Logistics",
-    service: "CRM & ERP Systems Development",
-    budget: "$25k - $50k",
-    message: "Need custom dispatch and driver assignment ERP web portal.",
-    status: "Contacted",
-    createdAt: "2 days ago (Quote Form)",
-  },
-];
+const DEFAULT_LEADS: LeadRecord[] = [];
 
 const DEFAULT_LOGS: AdminActionRecord[] = [
   {
     id: "log_01",
     adminEmail: "admin@itibusinesssuite.online",
     action: "System Initialized",
-    target: "System Core",
-    details: "Initialized packages according to documentation ($20 & $50)",
+    target: "Innovative SaaS & Agency Hub",
+    details: "Production database initialized. Ready for real clients and inquiries.",
     timestamp: new Date().toISOString(),
   },
 ];
@@ -273,6 +180,14 @@ export function updateLeadStatus(id: string, status: LeadRecord["status"]): bool
   return true;
 }
 
+export function deleteLead(id: string): boolean {
+  const leads = getLeads();
+  const filtered = leads.filter((l) => l.id !== id);
+  if (filtered.length === leads.length) return false;
+  writeJsonFile("leads.json", filtered);
+  return true;
+}
+
 // Clients API
 export function getClients(): ClientRecord[] {
   return readJsonFile<ClientRecord[]>("clients.json", DEFAULT_CLIENTS);
@@ -297,6 +212,14 @@ export function updateClient(id: string, updates: Partial<ClientRecord>): Client
   clients[index] = { ...clients[index], ...updates };
   writeJsonFile("clients.json", clients);
   return clients[index];
+}
+
+export function deleteClient(id: string): boolean {
+  const clients = getClients();
+  const filtered = clients.filter((c) => c.id !== id);
+  if (filtered.length === clients.length) return false;
+  writeJsonFile("clients.json", filtered);
+  return true;
 }
 
 // Packages API
