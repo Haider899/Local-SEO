@@ -113,15 +113,75 @@ function RegisterContent() {
       }
 
       // Store in auth session
+      const cleanBusinessName = businessName || name || "My Business";
+      const cleanDomain = domain || `${cleanBusinessName.toLowerCase().replace(/[^a-z0-9]/g, "")}.com`;
+
       localStorage.setItem(
         "omni_auth_user",
         JSON.stringify({
           name,
           email,
-          businessName,
-          domain: domain || `${businessName.toLowerCase().replace(/[^a-z0-9]/g, "")}.com`,
+          businessName: cleanBusinessName,
+          domain: cleanDomain,
           plan: selectedPlan === "pkg_2" ? "Package 2 ($50/mo)" : "Package 1 ($20/mo)",
           loggedInAt: new Date().toISOString(),
+        })
+      );
+
+      // Immediately override workspace so it reflects this real business name
+      const customWorkspace = {
+        id: `ws-${Date.now()}`,
+        name: cleanBusinessName,
+        domain: cleanDomain,
+        location: "Local Service Area",
+        primaryService: "Local Business & GMB Growth",
+        targetKeyword: cleanBusinessName.toLowerCase(),
+        overallVisibilityScore: 78,
+        grade: "B",
+        aiVisibilityScore: 72,
+        localVisibilityScore: 82,
+        seoHealthScore: 75,
+        technicalScore: 70,
+        categoryScores: {
+          seo: 75,
+          technical: 70,
+          local: 82,
+          ai: 72,
+          authority: 70,
+        },
+        isLiveAudit: false,
+        issuesCount: { critical: 0, warnings: 2, passed: 14 },
+        tasks: [],
+        aiQueries: [],
+        keywords: [],
+        competitors: [],
+        nap: {
+          businessName: cleanBusinessName,
+          address: "Local Service Area",
+          phone: phone || "+1 (800) 555-RANK",
+          directoryCount: 12,
+          hasLocalBusinessSchema: true,
+          hasGeoCoordinates: true,
+          hasMapEmbed: true,
+          schemaStatus: "LocalBusiness Schema Active & Verified",
+        },
+      };
+      localStorage.setItem("omni_active_workspace_override", JSON.stringify(customWorkspace));
+
+      localStorage.setItem(
+        `omni_gmb_${customWorkspace.id}`,
+        JSON.stringify({
+          connectedEmail: email,
+          businessName: cleanBusinessName,
+          primaryCategory: "Software Company",
+          secondaryCategories: "Website Designer, Internet Marketing Service, Local SEO",
+          locationCity: "Local Service Area",
+          contactPhone: phone || "+1 (800) 555-RANK",
+          websiteUrl: `https://${cleanDomain}`,
+          googleMapsUrl: `https://maps.google.com/?q=${encodeURIComponent(cleanBusinessName)}`,
+          placeId: "ChIJ" + Math.random().toString(36).substring(2, 10).toUpperCase(),
+          businessDescription: `${cleanBusinessName} delivers verified professional services and digital solutions. Serving commercial and local clients with guaranteed quality.`,
+          operatingHours: "Mon-Fri: 9:00 AM - 6:00 PM, Sat: 10:00 AM - 3:00 PM",
         })
       );
 
@@ -147,7 +207,7 @@ function RegisterContent() {
   const handleFinishOnboarding = () => {
     setLoading(true);
     setTimeout(() => {
-      router.push("/dashboard");
+      router.push("/dashboard/local-seo");
     }, 500);
   };
 
@@ -516,6 +576,10 @@ function RegisterContent() {
                 <p className="text-xs text-slate-500 max-w-sm mx-auto">
                   To automate weekly posts, review responses, and 5x5 Geo-Grid tracking, grant official Google Business Profile API permissions.
                 </p>
+                <div className="p-3 rounded-2xl bg-teal-50 border border-teal-200 text-xs text-teal-900 font-bold max-w-sm mx-auto flex items-center justify-between">
+                  <span>Target Listing: <strong>{businessName || "My Business"}</strong></span>
+                  <span className="text-[10px] text-teal-700 font-normal">{email}</span>
+                </div>
               </div>
 
               {gmbConnected ? (
@@ -659,7 +723,7 @@ function RegisterContent() {
                   onClick={handleFinishOnboarding}
                   disabled={loading}
                 >
-                  {loading ? "Initializing Dashboard..." : "Launch Client Dashboard →"}
+                  {loading ? "Initializing GMB Suite..." : "Launch GMB SEO Suite & Dashboard →"}
                 </Button>
               </div>
             </div>

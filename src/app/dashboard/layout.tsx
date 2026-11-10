@@ -99,7 +99,7 @@ function DashboardLayoutInner({ children }: { children: React.ReactNode }) {
 
   const navItems = [
     { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
-    { label: "Local SEO & Grid", href: "/dashboard/local-seo", icon: MapPin },
+    { label: "GMB Local SEO & Maps", href: "/dashboard/local-seo", icon: MapPin, badge: "GMB Core" },
     { label: "Website SEO", href: "/dashboard/website-seo", icon: Globe, badge: "Pkg 2" },
     { label: "AI Visibility", href: "/dashboard/ai-visibility", icon: Bot, badge: "AEO" },
     { label: "Rank Tracker", href: "/dashboard/rank-tracker", icon: Layers },

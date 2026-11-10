@@ -32,9 +32,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# archives
-*.tar.gz
-*.zip
+# media & recordings
+*.mp4
+*.ogg
+*.opus
 
 # IDE
 .idea/

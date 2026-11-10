@@ -464,9 +464,22 @@ export function WorkspaceProvider({ children }: { children: React.ReactNode }) {
 
       // 1. If user is logged in, prioritize user's own workspace
       if (user) {
+        let regBusinessName = "";
+        let regDomain = "";
+        try {
+          const authRaw = localStorage.getItem("omni_auth_user");
+          if (authRaw) {
+            const parsedAuth = JSON.parse(authRaw);
+            if (parsedAuth.businessName) regBusinessName = parsedAuth.businessName;
+            if (parsedAuth.domain) regDomain = parsedAuth.domain;
+          }
+        } catch {}
+
         setWorkspace(
           createWorkspaceFromAuthUser({
-            name: user.displayName || user.email?.split("@")[0] || "Client",
+            name: regBusinessName || user.displayName || user.email?.split("@")[0] || "Client",
+            businessName: regBusinessName || undefined,
+            domain: regDomain || undefined,
             email: user.email || undefined,
           })
         );
