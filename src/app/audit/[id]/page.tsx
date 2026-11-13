@@ -60,28 +60,37 @@ export default function AuditReportPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white selection:bg-blue-500 selection:text-white">
+    <div className="flex flex-col min-h-screen bg-slate-50 selection:bg-teal-600 selection:text-white font-sans text-slate-900">
       <Navbar />
 
-      <main className="relative pt-32 pb-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <main className="flex-1 relative pt-12 sm:pt-16 pb-24">
+        {/* Subtle grid background */}
+        <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:24px_24px] opacity-40 pointer-events-none" />
+
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           {loading ? (
             <div className="text-center py-24 space-y-4">
-              <Sparkles className="w-8 h-8 text-blue-400 animate-spin mx-auto" />
-              <p className="text-slate-400 text-sm">Loading comprehensive audit report...</p>
+              <Sparkles className="w-8 h-8 text-teal-600 animate-spin mx-auto" />
+              <p className="text-slate-500 text-sm font-medium">Loading comprehensive audit report...</p>
             </div>
           ) : audit ? (
             <div className="space-y-8">
               {/* Header Card */}
-              <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-8 backdrop-blur-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+              <div className="rounded-3xl border border-slate-200/90 bg-white p-6 sm:p-8 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div>
                   <div className="flex items-center gap-2 mb-2">
-                    <Badge variant="info">Verified Audit Report</Badge>
-                    <span className="text-xs text-slate-500">{new Date(audit.timestamp).toLocaleDateString()}</span>
+                    <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-teal-50 text-teal-800 border border-teal-200">
+                      Verified Audit Report
+                    </span>
+                    <span className="text-xs text-slate-500 font-medium">
+                      {new Date(audit.timestamp).toLocaleDateString()}
+                    </span>
                   </div>
-                  <h1 className="text-3xl font-extrabold text-white">{audit.businessName}</h1>
-                  <p className="text-sm text-slate-400 mt-1 flex items-center gap-1.5">
-                    <Globe className="w-3.5 h-3.5 text-blue-400" /> {audit.domain} • {audit.location}
+                  <h1 className="text-2xl sm:text-3xl font-black text-slate-900 font-heading">
+                    {audit.businessName}
+                  </h1>
+                  <p className="text-sm text-slate-600 mt-1 flex items-center gap-1.5 font-medium">
+                    <Globe className="w-3.5 h-3.5 text-teal-600" /> {audit.domain} • {audit.location}
                   </p>
                 </div>
 
@@ -89,7 +98,7 @@ export default function AuditReportPage() {
                   <div className="text-center">
                     <ScoreGauge score={audit.overallScore} size={90} label="Score" />
                   </div>
-                  <Button variant="primary" onClick={handleOpenInDashboard} className="py-3">
+                  <Button variant="primary" onClick={handleOpenInDashboard} className="py-3 shadow-sm font-bold">
                     Open in Live Dashboard <ArrowRight className="w-4 h-4 ml-1.5" />
                   </Button>
                 </div>
@@ -105,23 +114,23 @@ export default function AuditReportPage() {
               </div>
 
               {/* Priority Issues & Action Items */}
-              <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-8 backdrop-blur-xl space-y-6">
-                <h3 className="text-xl font-bold text-white flex items-center gap-2">
-                  <AlertTriangle className="w-5 h-5 text-amber-400" />
+              <div className="rounded-3xl border border-slate-200/90 bg-white p-6 sm:p-8 shadow-xs space-y-6">
+                <h3 className="text-xl font-black text-slate-900 flex items-center gap-2 font-heading">
+                  <AlertTriangle className="w-5 h-5 text-amber-500" />
                   Detected Priority Action Items ({audit.issues.length})
                 </h3>
 
                 <div className="space-y-4">
                   {audit.issues.map((issue) => (
-                    <div key={issue.id} className="p-5 rounded-xl border border-slate-800 bg-slate-800/40 space-y-2">
+                    <div key={issue.id} className="p-5 rounded-2xl border border-slate-200 bg-slate-50 space-y-2">
                       <div className="flex items-center justify-between">
-                        <span className="font-bold text-white text-base">{issue.title}</span>
+                        <span className="font-bold text-slate-900 text-sm sm:text-base">{issue.title}</span>
                         <Badge variant={issue.severity === "critical" ? "danger" : "warning"}>
                           {issue.severity}
                         </Badge>
                       </div>
-                      <p className="text-sm text-slate-300">{issue.description}</p>
-                      <p className="text-xs text-blue-400 font-medium">
+                      <p className="text-sm text-slate-600 font-normal">{issue.description}</p>
+                      <p className="text-xs text-teal-700 font-bold">
                         💡 Recommendation: {issue.recommendation}
                       </p>
                     </div>
@@ -131,8 +140,8 @@ export default function AuditReportPage() {
             </div>
           ) : (
             <div className="text-center py-24 space-y-4">
-              <h2 className="text-2xl font-bold text-white">Audit Not Found</h2>
-              <p className="text-slate-400 text-sm">
+              <h2 className="text-2xl font-black text-slate-900 font-heading">Audit Not Found</h2>
+              <p className="text-slate-500 text-sm">
                 The requested audit report ID does not exist or has expired.
               </p>
               <Button variant="primary" href="/free-tools/local-rank-checker">
@@ -147,4 +156,3 @@ export default function AuditReportPage() {
     </div>
   );
 }
-

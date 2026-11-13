@@ -1,10 +1,8 @@
 import React from "react";
+import Link from "next/link";
 import { Navbar } from "@/components/marketing/Navbar";
 import { Footer } from "@/components/marketing/Footer";
-import { Button } from "@/ui/Button";
-import { Badge } from "@/ui/Badge";
-import Link from "next/link";
-import { Calendar, Clock, ArrowRight } from "lucide-react";
+import { Calendar, Clock, ArrowRight, Sparkles } from "lucide-react";
 
 const ARTICLES = [
   {
@@ -35,50 +33,57 @@ const ARTICLES = [
 
 export default function BlogPage() {
   return (
-    <div className="min-h-screen bg-slate-950 text-white selection:bg-blue-500 selection:text-white">
+    <div className="flex flex-col min-h-screen bg-slate-50 selection:bg-teal-600 selection:text-white font-sans text-slate-900">
       <Navbar />
-      <main className="relative pt-32 pb-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="inline-block py-1 px-3.5 mb-4 text-xs font-semibold tracking-wider text-blue-400 uppercase rounded-full bg-blue-500/10 border border-blue-500/20">
+      <main className="flex-1 relative pt-12 sm:pt-16 pb-24">
+        {/* Subtle grid background */}
+        <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:24px_24px] opacity-40 pointer-events-none" />
+
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+            <span className="inline-flex items-center gap-1.5 py-1 px-3.5 mb-4 text-xs font-bold tracking-wider text-teal-800 uppercase rounded-full bg-teal-50 border border-teal-200 shadow-2xs">
+              <Sparkles className="w-3.5 h-3.5 text-teal-600" />
               Insights & Engineering
             </span>
-            <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white mb-6">
+            <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-slate-900 mb-4 font-heading">
               Latest Articles on Local SEO & AI Architecture
             </h1>
-            <p className="text-lg text-slate-400">
+            <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
               Expert guides on ranking local businesses, automating Google Business Profile management, and technical SEO.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
             {ARTICLES.map((art) => (
               <div
                 key={art.slug}
-                className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-xl flex flex-col justify-between hover:border-blue-500/40 transition-all hover:-translate-y-1"
+                className="rounded-3xl border border-slate-200/90 bg-white p-7 shadow-xs flex flex-col justify-between hover:border-teal-400 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <Badge variant="info">{art.category}</Badge>
-                    <div className="flex items-center text-xs text-slate-500 gap-1">
+                    <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-teal-50 text-teal-800 border border-teal-200">
+                      {art.category}
+                    </span>
+                    <div className="flex items-center text-xs text-slate-500 font-medium gap-1">
                       <Clock className="h-3.5 w-3.5" />
                       {art.readTime}
                     </div>
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-3 hover:text-blue-400 transition-colors">
+                  <h2 className="text-xl font-black text-slate-900 mb-3 hover:text-teal-700 transition-colors font-heading leading-snug">
                     {art.title}
-                  </h3>
-                  <p className="text-sm text-slate-400 leading-relaxed mb-6">
+                  </h2>
+                  <p className="text-sm text-slate-600 leading-relaxed mb-6 font-normal">
                     {art.excerpt}
                   </p>
                 </div>
-                <div className="pt-4 border-t border-slate-800 flex items-center justify-between">
-                  <span className="text-xs text-slate-500 flex items-center gap-1">
+                <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
+                  <span className="text-xs text-slate-500 font-medium flex items-center gap-1">
                     <Calendar className="h-3.5 w-3.5" />
                     {art.date}
                   </span>
-                  <Link href="/pricing" className="text-xs font-semibold text-blue-400 flex items-center hover:underline">
-                    Read Article <ArrowRight className="ml-1 h-3.5 w-3.5" />
+                  <Link href="/pricing" className="text-xs font-bold text-teal-700 hover:text-teal-900 flex items-center gap-1">
+                    <span>Read Article</span>
+                    <ArrowRight className="h-3.5 w-3.5" />
                   </Link>
                 </div>
               </div>
@@ -90,4 +95,3 @@ export default function BlogPage() {
     </div>
   );
 }
-

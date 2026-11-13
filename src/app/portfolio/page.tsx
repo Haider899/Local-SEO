@@ -1,11 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { Navbar } from "@/components/marketing/Navbar";
 import { Footer } from "@/components/marketing/Footer";
-import { Button } from "@/ui/Button";
-import { Badge } from "@/ui/Badge";
-import { ArrowUpRight, TrendingUp, Star, Globe, Award, Sparkles } from "lucide-react";
+import { ArrowUpRight, TrendingUp, Star, Globe, Award, Sparkles, CheckCircle2 } from "lucide-react";
 
 const PROJECTS = [
   {
@@ -73,34 +72,36 @@ export default function PortfolioPage() {
     filter === "ALL" ? PROJECTS : PROJECTS.filter((p) => p.category.includes(filter));
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white selection:bg-blue-500 selection:text-white">
+    <div className="flex flex-col min-h-screen bg-slate-50 selection:bg-teal-600 selection:text-white font-sans text-slate-900">
       <Navbar />
 
-      <main className="relative pt-32 pb-24">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(59,130,246,0.15),rgba(255,255,255,0))] pointer-events-none" />
+      <main className="flex-1 relative pt-12 sm:pt-16 pb-24">
+        {/* Subtle grid background */}
+        <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:24px_24px] opacity-40 pointer-events-none" />
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="inline-block py-1 px-3.5 mb-4 text-xs font-semibold tracking-wider text-blue-400 uppercase rounded-full bg-blue-500/10 border border-blue-500/20">
+          <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+            <span className="inline-flex items-center gap-1.5 py-1 px-3.5 mb-4 text-xs font-bold tracking-wider text-teal-800 uppercase rounded-full bg-teal-50 border border-teal-200 shadow-2xs">
+              <Sparkles className="w-3.5 h-3.5 text-teal-600" />
               Verified Case Studies
             </span>
-            <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white mb-6">
+            <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-slate-900 mb-4 font-heading">
               Proven Results Across Local & Global Digital Systems
             </h1>
-            <p className="text-lg text-slate-400 leading-relaxed">
+            <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
               Explore how our automated Local SEO SaaS tools, custom software engineering, and AI integrations deliver measurable revenue growth for businesses worldwide.
             </p>
 
             {/* Filter buttons */}
-            <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <div className="mt-8 flex flex-wrap justify-center gap-2 sm:gap-3">
               {["ALL", "Local SEO & GMB", "Website & CRM", "E-Commerce"].map((cat) => (
                 <button
                   key={cat}
                   onClick={() => setFilter(cat)}
-                  className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all ${
+                  className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                     filter === cat
-                      ? "bg-blue-600 text-white shadow-lg shadow-blue-500/25 border border-blue-500"
-                      : "bg-slate-900/80 text-slate-400 hover:text-white border border-slate-800"
+                      ? "bg-teal-700 text-white shadow-sm border border-teal-700 shadow-teal-700/20"
+                      : "bg-white text-slate-600 hover:text-slate-900 border border-slate-200 hover:bg-slate-100/70"
                   }`}
                 >
                   {cat === "ALL" ? "All Projects" : cat}
@@ -109,70 +110,90 @@ export default function PortfolioPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
             {filtered.map((proj) => (
               <div
                 key={proj.id}
-                className="group relative rounded-2xl border border-slate-800 bg-slate-900/60 p-8 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-blue-500/40 hover:shadow-2xl hover:shadow-blue-500/10"
+                className="group relative rounded-3xl border border-slate-200/90 bg-white p-7 sm:p-8 shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-teal-400 hover:shadow-xl flex flex-col justify-between"
               >
-                <div className="flex items-center justify-between mb-4">
-                  <Badge variant="info">{proj.category}</Badge>
-                  <span className="text-xs text-slate-500 font-medium">{proj.service}</span>
-                </div>
-
-                <h3 className="text-2xl font-bold text-white group-hover:text-blue-400 transition-colors mb-3">
-                  {proj.title}
-                </h3>
-                <p className="text-sm text-slate-400 leading-relaxed mb-6">
-                  {proj.description}
-                </p>
-
-                {/* Metrics */}
-                <div className="grid grid-cols-3 gap-3 p-4 rounded-xl bg-slate-800/40 border border-slate-700/50 mb-6">
-                  {proj.results.map((res, i) => (
-                    <div key={i} className="text-center">
-                      <p className="text-lg font-extrabold text-white">{res.value}</p>
-                      <p className="text-[10px] text-slate-400 font-medium leading-tight mt-0.5">
-                        {res.label}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="flex flex-wrap items-center justify-between gap-4 pt-2 border-t border-slate-800">
-                  <div className="flex flex-wrap gap-2">
-                    {proj.tags.map((t, idx) => (
-                      <span
-                        key={idx}
-                        className="text-[11px] font-medium px-2.5 py-1 rounded-md bg-slate-800 text-slate-300"
-                      >
-                        {t}
-                      </span>
-                    ))}
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-teal-50 text-teal-800 border border-teal-200">
+                      {proj.category}
+                    </span>
+                    <span className="text-xs text-slate-500 font-semibold">{proj.service}</span>
                   </div>
 
-                  <Button variant="ghost" href="/pricing" className="text-xs p-0 text-blue-400 hover:text-blue-300">
-                    Get Similar Results <ArrowUpRight className="ml-1 h-3.5 w-3.5" />
-                  </Button>
+                  <h2 className="text-xl sm:text-2xl font-black text-slate-900 group-hover:text-teal-700 transition-colors mb-2.5 font-heading">
+                    {proj.title}
+                  </h2>
+                  <p className="text-sm text-slate-600 leading-relaxed mb-6 font-normal">
+                    {proj.description}
+                  </p>
+
+                  {/* Metrics Grid */}
+                  <div className="grid grid-cols-3 gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-100 mb-6">
+                    {proj.results.map((res, i) => (
+                      <div key={i} className="text-center">
+                        <p className="text-base sm:text-lg font-black text-slate-900 tracking-tight">{res.value}</p>
+                        <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider mt-0.5">
+                          {res.label}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-slate-100">
+                    <div className="flex flex-wrap gap-1.5">
+                      {proj.tags.map((t, idx) => (
+                        <span
+                          key={idx}
+                          className="text-[11px] font-semibold px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 border border-slate-200/60"
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+
+                    <Link
+                      href="/pricing"
+                      className="text-xs font-bold text-teal-700 hover:text-teal-900 inline-flex items-center gap-1 group-hover:translate-x-0.5 transition-transform"
+                    >
+                      <span>Get Similar Results</span>
+                      <ArrowUpRight className="h-3.5 w-3.5" />
+                    </Link>
+                  </div>
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="mt-16 text-center">
-            <div className="inline-block rounded-2xl border border-slate-800 bg-slate-900/80 p-8 backdrop-blur-xl max-w-2xl">
-              <Sparkles className="h-8 w-8 text-blue-400 mx-auto mb-3" />
-              <h3 className="text-xl font-bold text-white mb-2">Want to rank your business like this?</h3>
-              <p className="text-sm text-slate-400 mb-6">
-                Start with our $20/month automated GMB SEO package or test your site for free with our SEO Checker.
+          <div className="mt-16 text-center max-w-2xl mx-auto">
+            <div className="rounded-3xl border border-teal-200/80 bg-gradient-to-tr from-teal-50/90 via-white to-emerald-50/80 p-8 shadow-sm">
+              <div className="w-12 h-12 rounded-2xl bg-teal-100 text-teal-800 flex items-center justify-center mx-auto mb-3">
+                <Sparkles className="h-6 w-6" />
+              </div>
+              <h3 className="text-xl sm:text-2xl font-black text-slate-900 mb-2 font-heading">
+                Want to rank your business like this?
+              </h3>
+              <p className="text-sm text-slate-600 mb-6 max-w-md mx-auto leading-relaxed">
+                Start with our $20/month automated GMB SEO package or test your site for free with our Local Rank Inspector.
               </p>
-              <div className="flex flex-col sm:flex-row justify-center gap-4">
-                <Button variant="primary" href="/pricing">
+              <div className="flex flex-col sm:flex-row justify-center gap-3">
+                <Link
+                  href="/pricing"
+                  className="px-6 py-2.5 rounded-full text-xs font-bold text-white bg-teal-700 hover:bg-teal-800 transition-all shadow-sm"
+                >
                   View Subscription Packages ($20 / $50)
-                </Button>
-                <Button variant="outline" href="/free-tools/local-rank-checker">
+                </Link>
+                <Link
+                  href="/free-tools/local-rank-checker"
+                  className="px-6 py-2.5 rounded-full text-xs font-bold text-slate-800 bg-white hover:bg-slate-100 border border-slate-200 transition-all shadow-2xs"
+                >
                   Run Instant Free Audit
-                </Button>
+                </Link>
               </div>
             </div>
           </div>
@@ -183,4 +204,3 @@ export default function PortfolioPage() {
     </div>
   );
 }
-
