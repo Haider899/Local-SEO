@@ -109,8 +109,9 @@ export default function DashboardOverviewPage() {
               <h2 className="text-lg font-black text-white font-heading">
                 Google Business Profile (GMB) SEO & Maps 3-Pack Automation
               </h2>
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
-                Core Local Growth Engine
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                Auto-SEO Active (Autonomous)
               </span>
             </div>
             <p className="text-xs text-slate-300 max-w-xl leading-relaxed">
@@ -128,19 +129,27 @@ export default function DashboardOverviewPage() {
                 <Star className="w-3 h-3 text-amber-400" /> 5-Star Review Replier
               </span>
               <span className="flex items-center gap-1 bg-white/10 px-2 py-0.5 rounded-md">
-                <Sliders className="w-3 h-3 text-cyan-300" /> Auto/Approval Mode
+                <Zap className="w-3 h-3 text-amber-300" /> Auto-SEO Bot Active
               </span>
             </div>
           </div>
         </div>
 
-        <Link
-          href="/dashboard/local-seo"
-          className="w-full lg:w-auto px-6 py-3.5 rounded-2xl bg-gradient-to-r from-teal-400 via-emerald-400 to-cyan-400 hover:from-teal-300 hover:to-emerald-300 text-slate-950 font-black text-xs shrink-0 flex items-center justify-center gap-2 shadow-lg shadow-teal-500/20 transition-all hover:scale-[1.02] active:scale-95"
-        >
-          <MapPin className="w-4 h-4 text-slate-950" />
-          <span>Launch GMB SEO Suite →</span>
-        </Link>
+        <div className="flex flex-col sm:flex-row items-center gap-2.5 w-full lg:w-auto shrink-0">
+          <Link
+            href="/dashboard/local-seo?auto=1"
+            className="w-full sm:w-auto px-5 py-3.5 rounded-2xl bg-gradient-to-r from-teal-400 via-emerald-400 to-cyan-400 hover:from-teal-300 hover:to-emerald-300 text-slate-950 font-black text-xs flex items-center justify-center gap-2 shadow-lg shadow-teal-500/25 transition-all hover:scale-[1.02] active:scale-95"
+          >
+            <Zap className="w-4 h-4 fill-slate-950" />
+            <span>Run Auto-SEO Cycle Now →</span>
+          </Link>
+          <Link
+            href="/dashboard/local-seo"
+            className="w-full sm:w-auto px-4 py-3.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs border border-white/20 flex items-center justify-center gap-1.5 transition-all"
+          >
+            <span>Open GMB Suite</span>
+          </Link>
+        </div>
       </div>
 
       {/* Quick Mobile / Desktop Action Shortcuts */}
